@@ -4,10 +4,11 @@ export const blogApi = createApi({
   reducerPath: "blogApi",
   tagTypes: ["Post", "Comment", "User"],
   baseQuery: fetchBaseQuery({
-    baseUrl:' `${import.meta.env.VITE_API_BASE_URL}/api`',
+    baseUrl:`${import.meta.env.VITE_API_BASE_URL}/api`,
     prepareHeaders: (headers, { getState }) => {
       // getState().auth.token isliye kyunki humne upar state.token set kiya hai
       const token = getState().auth.token;
+      console.log("url",import.meta.env.VITE_API_BASE_URL);
     
 
       if (token) {
