@@ -14,7 +14,7 @@ function Profile() {
   const userName = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
   const userEmail = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
   const profileImg = user?.profilePicture || null;
-  const BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || "http://192.168.31.161:5023";
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
 
   const { data: allPosts, isLoading } = useGetRecentPostsQuery({pageSize: 30});
   const myBlogs = allPosts?.data?.records?.filter((post) => post.blogAuthor === userName) || [];
@@ -38,6 +38,7 @@ console.log("profile",updateProfile)
   );
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFormData((prev) => ({ 
       ...prev, 
       Name: user.name || "", 

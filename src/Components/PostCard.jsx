@@ -4,7 +4,7 @@ import { useDeletePostMutation } from "../services/apiSlice";
 
 function PostCard({ post }) {
   const navigate = useNavigate();
- const BASE_URL = "http://192.168.31.161:5023";
+ const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
   const FALLBACK_IMG = "https://placehold.co/600x400/000000/ff0000?text=Burogu+Blog";
   let path = post.blogImgagePath || "";
  

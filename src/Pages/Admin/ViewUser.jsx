@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetDashboardInfoQuery } from '../../services/apiSlice';
 
-const BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || "http://192.168.31.161:5023";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
 const FALLBACK_AVATAR = "https://i.pinimg.com/736x/29/fb/f8/29fbf8f7ee3f0054ed645b71230603fc.jpg";
 const ALLOWED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp'];
 

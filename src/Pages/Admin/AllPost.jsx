@@ -13,7 +13,7 @@ function AllPost() {
 
   if (isLoading) return <div className="loading">Loading posts...</div>;
   if (isError) return <div className="error">Error loading posts. Please check your connection.</div>;
-  const BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || "http://192.168.31.161:5023";
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
   const allowedExtensions = ['.png', '.jpg', '.jpeg'];
   // Accessing the array from the "data" property of your backend response
   const posts = data?.data?.records || [];

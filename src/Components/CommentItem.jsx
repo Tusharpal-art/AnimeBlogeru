@@ -21,7 +21,7 @@ const CommentItem = ({ comment, blogId }) => {
   const [reactToComment] = useReactToCommentMutation();
 
   // Handle Image Path
-  const BASE_URL = "http://192.168.31.161:5023";
+  const BASE_URL =`${import.meta.env.VITE_API_BASE_URL}`;
   const userImg = comment.createdBy?.profileImagePath 
     ? `${BASE_URL}${comment.createdBy.profileImagePath}` 
     : "https://placehold.co/40x40/000000/ff0000?text=U";

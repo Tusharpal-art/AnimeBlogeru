@@ -2,7 +2,7 @@ import * as signalR from "@microsoft/signalr";
 
 let connection = null;
 let startPromise = null;
-const BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || "http://192.168.31.161:5023";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
 
 export const getSignalRConnection = (token) => {
   if (connection) return connection;

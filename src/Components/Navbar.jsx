@@ -63,7 +63,7 @@ function Navbar({ toggleSidebar }) {
             >
               <img
                 className="nav-avatar"
-                src={profileImg ? `http://192.168.31.161:5023${profileImg}` : ""}
+                src={profileImg ? `${import.meta.env.VITE_API_BASE_URL}/api${profileImg}` : ""}
                 onError={handleImgError}
                 alt="User"
               />

@@ -63,7 +63,7 @@ function Post() {
     // --- IMAGE LOGIC INTEGRATION --
     
  
-  const BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || "http://192.168.31.161:5023";
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
   const FALLBACK_IMG = "https://placehold.co/600x400/000000/ff0000?text=Burogu+Blog";
 
   // 2. Logic to handle the path
