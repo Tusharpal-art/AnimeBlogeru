@@ -1,0 +1,619 @@
+/* --- Home Page (Production Standard) --- */
+
+.home-wrapper {
+  width: 100%;
+  margin-top: 70px;
+}
+
+.outerContainer {
+  width: 100%;
+  min-height: 50vh;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("https://images.unsplash.com/photo-1528360983277-13d401cdc186?fm=jpg&q=60&w=3000")
+      center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  background-color: #eeeeee00;
+}
+
+.hero-content h1 {
+  color: white;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  text-shadow: 3px 3px 15px rgba(255, 0, 0, 0.7);
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  color: #eee;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.article-text-content{
+  color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    font-size: 1.2rem;
+}
+
+.status-msg {
+  text-align: center;
+  color: red;
+  padding: 50px;
+  font-size: 1.2rem;
+}
+
+.link-tab
+{
+  margin: auto 0;
+}
+
+@media (max-width: 768px) {
+  .outerContainer {
+    min-height: 40vh;
+    padding: 40px 15px;
+  }
+}
+
+/*RecentPost Styling*/
+ 
+img, svg {
+    vertical-align: middle;
+    background-color: rgb(9 8 8 / 0%);
+}
+
+.postList {
+  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  width: 100%;
+  padding: 20px;
+}
+
+@media (min-width: 600px) {
+  .postList {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+}
+
+
+
+/* --- Add Post Container --- */
+.addPostCon {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: clamp(20px, 5vw, 50px);
+  margin-top: 70px; /* Navbar space */
+}
+
+.postDoc {
+  width: 100%;
+  max-width: 700px; /* Desktop/Tablet limit */
+  background: #0f0f0f;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.postDoc input, .postDoc textarea {
+  width: 100%;
+  padding: 15px;
+  background: #000;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px; /* Tablet/Mobile touch friendly */
+  outline: none;
+  transition: 0.3s;
+}
+
+.postDoc input:focus, .postDoc textarea:focus {
+  border-color: red;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+/* --- Tablet & Mobile Tweaks --- */
+@media (max-width: 768px) {
+  .postDoc {
+    padding: 20px;
+  }
+  
+  .addPostCon {
+    padding: 15px;
+  }
+}
+
+/* Navbar Container */
+/* Container to spread items to far left and far right */
+.nav-container {
+  display: flex;
+  justify-content: space-between; /* This pushes logo left and actions right */
+  align-items: center;
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.navbar {
+  background: #000; 
+  height: 80px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #ff0000; /* Neon red border from your theme */
+  box-shadow: 0 2px 15px rgba(255, 0, 0, 0.3);
+}
+
+/* Actions area (Add Blog, All Blog, Logout) */
+.nav-actions {
+  display: flex;
+  gap: 25px; /* Adds space between the links and buttons */
+  align-items: center;
+}
+
+/* Keeping your exact button style from image_b100fa.png */
+.login-btn, .logout-btn {
+  background: #ff0000;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-link {
+  color: #ff0000; /* Matching your red text theme */
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+
+
+/* Container for AllPost.jsx and RecentPost.jsx */
+.allpost {
+  display: grid;
+  /* This creates a responsive grid: min 300px per card */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 25px; 
+  padding: 40px 5%;
+  background-color: #000; /* Matching your theme */
+}    
+
+.postCard {
+  background: #111; /* Slightly lighter than pure black */
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid #222;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  
+  cursor: pointer;
+}
+
+.postCard:hover {
+  transform: translateY(-10px);
+  border-color: #ff0000; /* Neon Red Border */
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); /* Neon Red Glow */
+}
+
+/* Fix for the weird stretched images */
+.postCard-img-wrapper {
+  height: 170px;
+  width: 100%;
+  position: relative;
+}
+
+.postCard-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image isn't stretched */
+}
+
+.category-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff0000 !important;
+  color: #fff;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.postCard-content {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+}
+
+.postCard-content h3 {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  /* Limit title to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.postCard-content p {
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+
+.article-author-line{
+  color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+   font-weight: 700;
+}
+
+/* Container for the whole header */
+.blog-hero-header {
+    position: relative;
+    height: 450px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    padding: 0 5% 40px 5%;
+    color: white;
+}
+
+.blog-hero {
+    position: relative;
+    width: 100%;
+    height: 85vh; /* Large cinematic height */
+    display: flex;
+    align-items: flex-end;
+    background-color: #000;
+}
+.h2
+{
+  margin: 4rem 0 0.7rem 5.6rem !important;
+}
+.hero-image-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center 20%;
+    z-index: 1;
+}
+
+.hero-overlay-dark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradient: Transparent at top to Solid Black at bottom */
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.9) 100%);
+    z-index: 2;
+}
+
+.hero-content-inner {
+    position: relative;
+    z-index: 3;
+    padding: 0 5% 60px 5%; /* Aligns text to bottom left */
+    width: 100%;
+    max-width: 1400px;
+}
+
+.hero-timestamp {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.hero-main-title {
+    color: white;
+    font-size: clamp(2.5rem, 5vw, 4.5rem); /* Responsive huge font */
+    font-weight: 800;
+    line-height: 1.1;
+    max-width: 900px;
+    margin: 0 0 20px 0;
+    text-transform: capitalize;
+}
+
+.hero-button-row {
+    display: flex;
+    gap: 12px;
+}
+
+.read-more-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.like-dislike-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 14px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    backdrop-filter: blur(10px); /* Modern glass look */
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.like-dislike-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #ff0000;
+}
+
+/* The background that is blurred and darkened */
+.hero-bg-blur {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(25px) brightness(0.4); /* DARKENS and BLURS */
+    transform: scale(1.1); /* Prevents white edges */
+    z-index: 1;
+}
+
+/* Wrapper to hold poster and text on top of blur */
+.hero-content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 30px;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Floating Poster */
+.floating-poster {
+    width: 220px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.drop-zone {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #111;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.drop-zone:hover {
+  background: #1a1a1a;
+  border-color: #fff;
+}
+/* Text Section */
+.hero-info {
+    flex: 1;
+    padding-bottom: 10px;
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Buttons Styling */
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn-main, .btn-secondary {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-main {
+    background: white;
+    color: black;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+}    
+.post-page {
+    width: 100%;
+    min-height: 100vh; /* Takes full height but expands if content is long */
+    background-color: #000;
+    overflow-y: auto; /* Ensures scrollability */
+    display: block; /* Avoid centering issues from flex parents */
+}
+
+/* 2. Responsive Hero Header */
+.blog-hero-header {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    padding: 60px 20px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.hero-content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap; /* Wraps items on mobile */
+    gap: 30px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* 3. The "Un-shrinking" Content Body */
+.post-body-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/* 4. Mobile Adjustments */
+@media (max-width: 768px) {
+    .hero-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .floating-poster {
+        width: 180px;
+        height: auto;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+
+
+.profile-hero {
+  padding:110px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, #1a1a1a 0%, #050505 100%);
+  border-bottom: 1px solid #333;
+}
+
+.profile-avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background-color: rgb(9 8 8 / 0%);
+}
+
+.proImgDiv {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ff0000; /* Matching your theme's red accents */
+}
+
+.plus-label {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #ff0000;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+}
+
+.profile-name {
+  color: white;
+  margin-top: 20px;
+  font-size: 2rem;
+}
+
+.profile-tabs {
+  padding: 20px 5%;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+}
+
+.active-tab {
+  color: white;
+  border-bottom: 2px solid #ff0000;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+.my-blogs-grid
+{
+  margin-bottom: 5rem;
+  padding: 2rem 0 2rem 3rem;
+}
+
+
+.asidebar{
+  width: 200px;
+    padding: 40px;
+    border: 2px solid red;
+    box-shadow: 0 2px 15px rgba(255, 0, 0, 0.3);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}

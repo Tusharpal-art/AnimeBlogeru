@@ -1,0 +1,1113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: transparent; /* Force transparency by default */
+}
+
+body, .post-page {
+  background-color: #000 !important; /* Pure Black Website */
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Remove default background from everything else */
+div, span, p, h1, h2, h3, h4, i, svg {
+  background-color: transparent !important;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  height: 75px;
+  background-color: #0a0a0a;
+  border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+.logo-link h2 {
+  color: red;
+  font-style: italic;
+  font-weight: 800;
+  margin: 0;
+  font-size: 24px;
+}
+
+.jp-text {
+  color: #666;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Profile Section */
+.profile-container {
+  position: relative;
+}
+
+.avatar-wrapper {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  padding: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-wrapper:hover, .avatar-wrapper.active {
+  border-color: red;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+}
+
+.nav-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #1a1a1a;
+}
+
+/* Dropdown styling */
+.nav-dropdown {
+  position: absolute;
+  right: 0;
+  top: 60px;
+  background-color: #121212;
+  border: 1px solid #333;
+  border-radius: 12px;
+  min-width: 200px;
+  padding: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-header {
+  padding: 10px;
+}
+
+.user-name {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.red-divider {
+  height: 2px;
+  background: linear-gradient(to right, red, transparent);
+  width: 100%;
+}
+
+.drop-item {
+  display: block;
+  color: #bbb;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.drop-item:hover {
+  background-color: #222;
+  color: red;
+}
+
+.logout-btn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  border-top: 1px solid #222;
+  margin-top: 5px;
+}
+
+.signInBtn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Hamburger Menu Icon */
+.menu-icon span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+.loginBtn:hover {
+  cursor: pointer;
+  background-color: black;
+  color: rgba(255, 0, 0, 1);
+  border-color: red;
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+.outerContainer {
+  background-image: url("https://images.unsplash.com/photo-1528360983277-13d401cdc186?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWUlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww");
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  height: 600px;
+  padding: 10px 60px;
+  background-position: center;
+}
+
+.outerContainer h1,
+p {
+  background: none;
+  background-color: rgba(240, 248, 255, 0);
+}
+.outerContainer h1 {
+  color: rgb(9, 8, 8);
+  font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.Recentpost {
+  width: 100%;
+  height: 600px;
+  align-items: center;
+  color: brown;
+  background-color: black;
+}
+/*
+.postList {
+  width: 100%;
+  margin: 50px 0px;
+  height: 500px;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 -20px 30px rgb(232 16 16 / 30%);
+  background-color: black;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.postCard {
+  margin: 10px;
+  background-color: black;
+
+  border-radius: 9px;
+  box-shadow: 0px 6px 6px hsla(0, 89%, 52%, 0.3);
+}
+*/
+.postList.horizontal-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 25px; /* Controlled gap */
+  padding: 20px;
+  scroll-snap-type: x mandatory; /* Makes scrolling "snap" to each card */
+  
+  /* Calculation: (5 cards * 220px) + (4 gaps * 20px) */
+  /* This ensures the 6th card stays hidden until you scroll */
+  max-width: 1200px; 
+  margin: 0 auto;
+}
+
+.postCard {
+  /* This is the key: 0 0 means don't grow or shrink */
+  /* Using calc(20% - 16px) makes exactly 5 fit in any container width */
+  flex: 0 0 calc(20% - 16px); 
+  min-width: 200px; /* Prevents them from getting too tiny on small screens */
+  background-color: #121212 !important;
+  border-radius: 12px;
+  height: 25rem;
+  scroll-snap-align: start; /* Works with scroll-snap-type above */
+}
+
+/* Hide scrollbar for a cleaner Netflix look */
+.postList.horizontal-scroll::-webkit-scrollbar {
+  display: none; 
+}
+.postList.horizontal-scroll {
+  -ms-overflow-style:thin;  /* IE and Edge */
+  scrollbar-width: thin;  /* Firefox */
+}
+
+
+
+.Recentpost h2 {
+  margin: 50px;
+}
+
+.postCard img {
+  width: 100%;
+  object-fit: cover;
+  height: 200px;
+}
+.postCard h3 {
+  font-size: 1.5rem;
+  /* font-size: medium; */
+  margin: 5px 5px;
+  background-color: #ffffff00;
+}
+.postCard button {
+  margin: 10px 5px 1px 1px;
+  border: 1px solid red;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  color: red;
+}
+.postCard button:hover {
+  cursor: pointer;
+  box-shadow: 0px 6px 6px hsla(0, 89%, 52%, 0.3);
+  background-color: rgba(246, 7, 7, 0.545);
+  color: black;
+  font-weight: 400;
+  border: none;
+}
+
+.post {
+  width: 100%;
+}
+
+.postContainer {
+  display: flex;
+}
+.postContainer img {
+  width: 500px;
+  border-radius: 19px;
+  margin: 10px 20px;
+  height: 700px;
+}
+article {
+  padding: 80px 30px 10px;
+}
+
+article h2,
+p {
+  color: red;
+  
+  display: flex;
+  flex-direction: column;
+ 
+  gap: 0.5rem;
+}
+
+article h2 {
+  font-size: 2.5rem;
+  width: 500px;
+}
+article p {
+  font-size: 1.3rem;
+}
+.postContain {
+  color: red !important;
+  padding: 20px 40px;
+}
+
+/* --- Refined Comment Box --- */
+.commentbox {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.commentbox h2 {
+  color: red;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-group {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.user-comment-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid red;
+  object-fit: cover;
+}
+
+
+.commentbox input {
+  flex: 1;
+  background-color: #111; /* Very dark gray for input */
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 15px;
+  color: white;
+  height: 50px; /* Aligned with avatar */
+  transition: 0.3s;
+}
+
+.commentbox input:focus {
+  border-color: red;
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.loginBtn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 0 25px;
+  height: 50px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.loginBtn:hover {
+  background-color: #b30000;
+  transform: translateY(-2px);
+}
+
+/* --- Horizontal Line --- */
+.red-line-hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, red, transparent);
+  margin: 40px 0;
+}
+
+/* Dashboard style*/
+.dashboard {
+  width: 100%;
+
+  background-image: url("./assets/Images/ChatGPT\ Image\ Nov\ 23\,\ 2025\,\ 06_09_30\ PM.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 30px 30px;
+}
+.dashboard h2 {
+  color: red;
+  background-color: rgba(240, 248, 255, 0.015);
+}
+
+.admin-layout {
+  display: flex;
+  height: 100vh;
+}
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.outlet-wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.adminData {
+  width: 300px;
+  height: 250px;
+  background-color: #a52a2a45;
+  border: 2px solid red;
+  border-radius: 20px;
+  padding: 15px 10px;
+}
+.Admin {
+  display: flex;
+  justify-content: flex-start;
+  gap: 50px;
+  align-items: center;
+  padding: 50px 30px;
+  background-color: #ffffff00;
+  flex-wrap: wrap;
+  width: calc(100%-200px);
+  margin-left: 200px;
+}
+.adminData p {
+  padding: 50px;
+  font-size: 30px;
+  color: black;
+  font-weight: 700;
+}
+.adminData h3 {
+  background-color: rgba(255, 235, 205, 0.008);
+  color: black;
+  font-weight: 700;
+}
+
+/*AddPost Styling*/
+.addPostCon {
+  width: calc(100%-200px);
+  background-color: rgba(109, 13, 6, 0.855);
+  height: 100vh;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./assets/Images/ChatGPT\ Image\ Nov\ 23\,\ 2025\,\ 06_09_30\ PM.png");
+}
+.postDoc {
+  width: 600px;
+  background-color: rgba(22, 22, 22, 0.764);
+  padding: 0px 50px 50px 50px;
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border: 2px solid red;
+  border-radius: 5px;
+}
+.postDoc label {
+  background-color: rgba(240, 248, 255, 0);
+  color: red;
+  font-size: larger;
+  margin: 10px;
+}
+.imgInput {
+  background-color: rgba(240, 248, 255, 0);
+  display: flex;
+  flex-direction: column;
+}
+.imgInput input {
+  width: 300px;
+  height: 50px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0;
+}
+.titleInput {
+  background-color: rgba(240, 248, 255, 0);
+  display: flex;
+  flex-direction: column;
+}
+.titleInput input {
+  width: 400px;
+  height: 70px;
+}
+.DesInput {
+  background-color: rgba(240, 248, 255, 0);
+  display: flex;
+  flex-direction: column;
+}
+select {
+  width: 100px;
+  height: 50px;
+  /* border-radius: 10px; */
+  border-top: 2px solid red;
+  /* border: 2px solid red; */
+  border-bottom: 2px solid red;
+  border-left: 2px solid red;
+  border-bottom-left-radius: 10px;
+  /* border-bottom-right-radius: 10px; */
+  border-top-left-radius: 10px;
+  color: red;
+}
+.selectbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+textarea {
+  width: 400px;
+  height: 100px;
+  border-radius: 10px;
+  border: 2px solid red;
+}
+.submit {
+  margin-top: 20px;
+  padding: 10px 30px;
+  border: none;
+  background-color: red;
+  border-radius: 10px;
+  font-weight: 500;
+} 
+/*All User Styling*/
+.users {
+  background-color: black;
+  width: 100%;
+  height: 100vh;
+  padding: 30px 0px;
+}
+
+.users h2 {
+  color: rgb(243, 6, 6);
+}
+.userTable {
+  margin: 20px 5px;
+  padding: 20px 2px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #111; /* Pure dark */
+  color: #fff;
+  font-size: 16px;
+}
+th {
+  text-align: inherit;
+  text-align: -webkit-match-parent;
+  background-color: #82515133;
+  padding: 20px;
+  /* border-radius: 10px; */
+  margin: 50px;
+}
+thead tr {
+  background-color: #c62828; /* dark red */
+}
+
+thead th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+  color: #fff;
+}
+
+tbody tr {
+  border: 1px solid rgba(244, 16, 16, 0.948);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin: 10px;
+}
+
+tbody td {
+  padding: 12px 15px;
+  color: #ddd;
+}
+
+/* Hover effect */
+tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Action column style */
+.action-btn {
+  border: 2px solid red;
+  color: #020101;
+  font-size: small;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #c62828;
+}
+.action-btn:hover {
+  color: #ff7777;
+  background-color: #020101;
+}
+
+/*All Post Styling*/
+
+.allpost {
+  width: calc(100%-200px);
+  background-color: rgba(109, 13, 6, 0.855);
+  height: 100vh;
+  padding: 50px;
+  display: flex;
+
+  background-image: url("./assets/Images/ChatGPT\ Image\ Nov\ 23\,\ 2025\,\ 06_09_30\ PM.png");
+}
+
+ 
+/*Login page*/
+.LoginCon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #000;
+  padding: 20px;
+}
+
+.LoginPage {
+  width: 100%;
+  max-width: 850px; /* Slightly smaller for a cleaner look */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  box-shadow: 0px 0px 25px rgba(244, 3, 3, 0.2);
+  background-color: rgb(15, 15, 15);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* 1. Make Image Section Full and Proportional */
+.img-section {
+  flex: 1;
+  display: flex;
+  background-color: #111;
+}
+
+.loginImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This makes the image fill the area without stretching */
+  display: block;
+}
+
+/* 2. Login Input Side */
+.loginInput {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center inputs horizontally */
+}
+
+.loginInput h2 {
+  margin-bottom: 20px;
+  align-self: flex-start; /* Title stays left */
+}
+
+/* 3. Small/Refined Inputs */
+.loginInput input {
+  width: 100%;
+  max-width: 300px; /* Limits the width of inputs */
+  max-height: 50px;
+  padding: 10px 15px; /* Smaller padding */
+  margin: 8px 0;
+  background-color: #222;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.loginInput input:focus {
+  border-color: red;
+}
+
+/* Button Refinement */
+.login {
+  margin-top: 15px;
+  padding: 10px 20px;
+  max-width: 300px; /* Matches input width */
+  border: none;
+  background-color: red;
+  border-radius: 8px;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  color: white;
+  font-size: 15px;
+}
+
+.login:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.login:hover:not(:disabled) {
+  background-color: rgb(200, 0, 0);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .LoginPage {
+    flex-direction: column;
+    max-width: 400px;
+  }
+  
+  .img-section {
+    height: 200px; /* Show part of image on mobile */
+  }
+
+  .loginInput {
+    padding: 30px 20px;
+  }
+}
+
+/* --- Navbar Styling --- */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: rgb(9, 8, 8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  box-shadow: 0 2px 15px rgba(255, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.logo-section {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.jp-text {
+  color: red;
+  font-size: 18px;
+  font-style: italic;
+}
+
+/* --- Hamburger Menu Icon --- */
+.menu-icon {
+  display: none; /* Desktop pe hidden */
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.menu-icon span {
+  width: 25px;
+  height: 3px;
+  background-color: red;
+  border-radius: 2px;
+}
+
+/* --- Profile & Dropdown --- */
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.avatar-wrapper img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid red;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+.avatar-wrapper img:hover {
+  box-shadow: 0 0 15px red;
+}
+
+.dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 180px;
+  background-color: rgb(15, 15, 15);
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown p {
+  padding: 10px;
+  color: #ddd;
+  font-size: 14px;
+  transition: 0.2s;
+  border-radius: 5px;
+  margin: 0 !important; /* Reset margin */
+}
+
+.dropdown p:hover {
+  background-color: red;
+  color: white;
+}
+
+.user-name {
+  font-weight: bold;
+  color: red !important;
+  text-align: center;
+}
+
+.logout-text {
+  border-top: 1px solid #333;
+  margin-top: 5px !important;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: flex; /* Mobile pe dikhega */
+  }
+
+  .jp-text {
+    display: none; /* Phone pe sirf Burogu dikhega */
+  }
+
+  .dropdown {
+    right: -10px;
+    width: 150px;
+  }
+}
+
+/* --- Comment Item Styling --- */
+.comment-action-btn {
+  cursor: pointer;
+  font-size: 12px;
+  color: red;
+  padding: 5px 10px;
+  border: 1px solid red;
+  border-radius: 6px;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  margin-right: 10px;
+}
+
+.comment-action-btn:hover {
+  background-color: red;
+  color: black;
+}
+
+.comment-action-btn:disabled {
+  border-color: gray;
+  color: gray;
+  cursor: not-allowed;
+}
+
+.comment-input-box {
+  padding: 10px;
+  border: 1px solid red;
+  border-radius: 6px;
+  background-color: black;
+  color: white;
+  width: calc(100% - 90px);
+  height: 40px;
+}
+
+.comment-actions-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.read-more {
+  color: red;
+  font-weight: bold;
+}
+
+/* Article & Content Styling */
+.post-article-container {
+  max-width: 900px;
+  margin: 0 auto 0 5rem;
+  padding: 40px 20px;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+}
+
+/* Modern Like/Dislike Buttons */
+.hero-button-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  background: transparent;
+}
+
+.like-dislike-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+.like-dislike-btn:hover {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: red;
+  transform: translateY(-2px);
+}
+
+.like-dislike-btn svg {
+  font-size: 1.2rem;
+  color: red;
+}
+
+/* Container Layout */
+.yt-comment-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  background: transparent !important;
+}
+
+.is-reply {
+  margin-top: 15px;
+  transform: scale(0.95);
+  transform-origin: left top;
+}
+
+/* Avatar Column */
+.yt-avatar-col {
+  flex-shrink: 0;
+}
+
+.yt-comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #333;
+}
+
+/* Content Column */
+.yt-content-col {
+  flex-grow: 1;
+}
+.blog-home-page
+{
+  padding-bottom: 4rem;
+}
+.yt-comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.yt-author-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.yt-timestamp {
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
+.yt-comment-text {
+  color: #eee;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 4px 0 8px 0;
+}
+
+/* Action Bar Styling */
+.yt-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 4px;
+}
+
+.yt-icon-btn, .yt-reply-trigger, .yt-small-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  padding: 4px 0;
+  transition: 0.2s;
+}
+
+.yt-icon-btn:hover, .yt-reply-trigger:hover {
+  color: red;
+}
+
+.yt-owner-actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto; /* Pushes Edit/Delete to the right */
+  opacity: 0.4;
+}
+
+.yt-owner-actions:hover {
+  opacity: 1;
+}
+
+/* Input Fields */
+.yt-comment-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  color: white;
+  padding: 8px 0;
+  margin-bottom: 8px;
+  outline: none;
+}
+
+.yt-comment-input:focus {
+  border-bottom: 2px solid red;
+}
+
+/* Buttons */
+.yt-button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.yt-text-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.yt-text-btn.red {
+  background: red;
+}
+
+.yt-text-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.yt-text-btn.red:hover {
+  background: #cc0000;
+}
