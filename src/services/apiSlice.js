@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
- 
+ const BASE_URL = import.meta.VITE_API_BASE_URL ||  "http://192.168.31.161:5023";
 export const blogApi = createApi({
   reducerPath: "blogApi",
   tagTypes: ["Post", "Comment", "User"],
   baseQuery: fetchBaseQuery({
-    baseUrl:`${import.meta.env.VITE_API_BASE_URL}/api`,
+    baseUrl:`${BASE_URL}/api`,
     prepareHeaders: (headers, { getState }) => {
       // getState().auth.token isliye kyunki humne upar state.token set kiya hai
       const token = getState().auth.token;
@@ -28,7 +28,7 @@ export const blogApi = createApi({
       PageNumber: params?.pageNumber || 1,
       PageSize: params?.pageSize || 20,
       IsDeleted: params?.isDelete || false,
-      BlogType:params?.type || 0,
+      BlogType:params?.BlogType || 0,
       SortBy:params?.sortBy|| null,
       IsAscending:params?.isAscending||false // Increase this to 20
     }
@@ -199,10 +199,10 @@ async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, refetch, getS
       
     }),
     registerUser: builder.mutation({
-      query: (userData) => ({
+      query: (formData) => ({
         url: "/Auth/Register",
         method: "POST",
-        body: userData,
+        body:formData,
       }),
     }),
     updateProfile: builder.mutation({

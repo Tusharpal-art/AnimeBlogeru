@@ -160,7 +160,7 @@ function Post() {
                 <div className="hero-overlay-dark" />
 
                 <div className="hero-content-inner">
-                    <span className="hero-timestamp">15 minutes ago</span>
+                  { /* <span className="hero-timestamp">15 minutes ago</span>*/}
                     
                     {isEditingBlog ? (
                         <input 
@@ -184,10 +184,10 @@ function Post() {
         </>
     ) : (
         <>
-          { (postData.blogAuthor===user.name) && <button className="like-dislike-btn" onClick={() => startEditing()}>
+          { ((postData.createdById===user.id)) && <button className="like-dislike-btn" onClick={() => startEditing()}>
                 <FaEdit /> Edit
             </button>}
-           { (postData.blogAuthor===user.name) && <button className="like-dislike-btn" onClick={handleDeleteBlog}>
+           {  ((postData.createdById===user.id)) && <button className="like-dislike-btn" onClick={handleDeleteBlog}>
                 <FaTrash /> Delete
             </button>}
             

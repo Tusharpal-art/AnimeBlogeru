@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDeletePostMutation } from "../services/apiSlice";
+import { ThumbsDownIcon, ThumbsUp } from "lucide-react";
 
 function PostCard({ post }) {
   const navigate = useNavigate();
- const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
   const FALLBACK_IMG = "https://placehold.co/600x400/000000/ff0000?text=Burogu+Blog";
   let path = post.blogImgagePath || "";
  
@@ -26,8 +27,8 @@ function PostCard({ post }) {
     }
   };
   return (
-    <div className="postCard" onClick={() => navigate(`/post/${post.id}`)}>
-      <div className="postCard-img-wrapper">
+    <div  className="postCard" onClick={() => navigate(`/post/${post.id}`)}>
+      <div style={{borderBottom:"1px solid red"}} className="postCard-img-wrapper">
         <img 
           src={imageSrc} 
           alt={post.blogTitle} 
@@ -35,20 +36,24 @@ function PostCard({ post }) {
           onError={(e) => { e.target.src = FALLBACK_IMG; }}
         />
         <span className="category-tag">{"Anime"}</span>
+        
       </div>
       
       <div className="postCard-content">
+         <h3 style={{ color: "red", margin: "10px 0 5px 0", fontSize: "1.2rem" }}>
+      {post.blogTitle}
+    </h3>
         
         <p>
-          {post?.blogDescription?.substring(0, 80)}... 
-          <span className="read-more"> Read More</span>
+          {post?.blogDescription?.substring(0, 20)}... 
+          
         </p>
         
         <div className="postCard-footer">
           <div className="stats">
             {/* Using the exact keys from your backend data */}
-            <span>👍 {post?.blogLiskes || 0}</span>
-            <span>👎 {post?.blogDislikes || 0}</span>
+            <span style={{color:"red" ,marginRight:"5px"}}><ThumbsUp style={{color:"red"}}/> {post?.blogLiskes || 0}</span>
+            <span  style={{color:"red" ,marginRight:"5px"}}><ThumbsDownIcon style={{color:"red"}}/> {post?.blogDislikes || 0}</span>
           </div>
           <button className="view-btn">View Post</button>
           { canDelete && (

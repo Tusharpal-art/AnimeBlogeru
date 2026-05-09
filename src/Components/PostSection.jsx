@@ -3,9 +3,12 @@ import { useGetRecentPostsQuery } from "../services/apiSlice";
  
 
 export const PostSection = ({ title, type, limit = 4,IsAscending=false }) => {
+  console.log(type)
+    console.log(title)
+      console.log(limit)
   const { data, isLoading, isError } = useGetRecentPostsQuery({
     pageSize: 30, // Fetching enough to have a pool
-    BlogType: 1,
+    BlogType: type,
     IsAscending:IsAscending,
      // Using the dynamic type from your endpoint
   });
@@ -26,7 +29,7 @@ export const PostSection = ({ title, type, limit = 4,IsAscending=false }) => {
     {/* Added the horizontal-scroll class here */}
     <div className="postList horizontal-scroll">
       {posts.length > 0 ? (
-        posts.map((post) => (
+        displayPosts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))
       ) : (

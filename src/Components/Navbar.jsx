@@ -1,9 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RemoveUser } from "../services/authSlice"; 
-//import { jwtDecode } from "jwt-decode"; 
- 
+import { RemoveUser } from "../services/authSlice";
+//import { jwtDecode } from "jwt-decode";
 
 function Navbar({ toggleSidebar }) {
   const [open, setOpen] = useState(false);
@@ -11,13 +10,14 @@ function Navbar({ toggleSidebar }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dropRef = useRef(null);
-  const {userId}=useParams()
+  const { userId } = useParams();
 
-  //console.log("NavBar",user.profilePicture)
-
+  console.log("userId",userId)
+ const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
   // Decode and find profile image logic
   //const decoded = user?.accessToken ? jwtDecode(user.accessToken) : null;
-  const profileImg = user?.profile || user?.profilePicture || user?.ProfileImage || null;
+  const profileImg =
+    user?.profile || user?.profilePicture || user?.ProfileImage || null;
 
   // Fallback if image fails to load
   const handleImgError = (e) => {
@@ -41,10 +41,12 @@ function Navbar({ toggleSidebar }) {
   };
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" style={{position:"sticky"}}>
       <div className="nav-left">
         <div className="menu-icon" onClick={toggleSidebar}>
-          <span></span><span></span><span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
         <div className="logo-section">
           <Link to="/" className="logo-link">
@@ -57,13 +59,17 @@ function Navbar({ toggleSidebar }) {
       <div ref={dropRef} className="nav-right">
         {user ? (
           <div className="profile-container">
-            <div 
-              className={`avatar-wrapper ${open ? "active" : ""}`} 
+            <div
+              className={`avatar-wrapper ${open ? "active" : ""}`}
               onClick={() => setOpen(!open)}
             >
               <img
                 className="nav-avatar"
-                src={profileImg ? `${import.meta.env.VITE_API_BASE_URL}/api${profileImg}` : ""}
+                src={
+                  profileImg
+                    ? `${BASE_URL}${profileImg}`
+                    : ""
+                }
                 onError={handleImgError}
                 alt="User"
               />
@@ -75,17 +81,33 @@ function Navbar({ toggleSidebar }) {
                   <p className="user-name">{user.userName || "User"}</p>
                   <div className="red-divider"></div>
                 </div>
-                
+
                 {(user.role === "Admin" || user.userRole === "Admin") && (
-                  <Link to="/dashboard" onClick={() => setOpen(false)} className="drop-item">
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="drop-item"
+                  >
                     Dashboard
                   </Link>
                 )}
-                
-               {(userId=== user.id)?  ( <Link to={`/profile/${user.id}`} onClick={() => setOpen(false)} className="drop-item">
-                  Profile
-                </Link>) : <Link to={"/"}>Home</Link>}
-                <button className="logout-btn" onClick={handleLogout}>Sign out</button>
+
+                {location.pathname === "/"  ? (
+                  <Link
+                    to={`/profile/${user.id}`}
+                    onClick={() => setOpen(false)}
+                    className="drop-item"
+                  >
+                    Profile
+                  </Link> 
+                ) : (
+                  <Link to="/" className="drop-item">
+                    Home
+                  </Link>
+                )}
+                <button className="logout-btn" onClick={handleLogout}>
+                  Sign out
+                </button>
               </div>
             )}
           </div>

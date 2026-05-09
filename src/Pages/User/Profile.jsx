@@ -102,7 +102,7 @@ console.log("profile",updateProfile)
           <form className="edit-profile-form" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", marginTop: "20px" }}>
             <input type="text" name="Name" value={formData.Name} onChange={handleInputChange} placeholder="Name" required style={{ padding: "8px", borderRadius: "5px", width: "250px", border: "1px solid red", backgroundColor: "black", color: "white" }} />
             <input type="email" name="Email" value={formData.Email} onChange={handleInputChange} placeholder="Email" required style={{ padding: "8px", borderRadius: "5px", width: "250px", border: "1px solid red", backgroundColor: "black", color: "white" }} />
-            <input type="text" name="PhoneNumber" value={formData.PhoneNumber} onChange={handleInputChange} placeholder="Phone Number" required style={{ padding: "8px", borderRadius: "5px", width: "250px", border: "1px solid red", backgroundColor: "black", color: "white" }} />
+            
             <div style={{ display: "flex", gap: "10px" }}>
               <button type="submit" disabled={isUpdating} style={{ padding: "8px 20px", background: "red", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold" }}>
                 {isUpdating ? "Updating..." : "Save Profile"}

@@ -33,7 +33,7 @@ const authSlice = createSlice({
             email:  decoded[temp + "emailaddress"] || "",
             // Use image from token OR from the API response if token doesn't have it
             profilePicture: decoded.ProfileImage || "",
-            id: decoded.nameid || decoded.sub,
+            id:  decoded[temp + "nameidentifier"] || decoded.sub,
             role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]|| "User"
            }; 
            console.log(state.user.name)

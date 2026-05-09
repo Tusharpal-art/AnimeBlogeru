@@ -3,7 +3,7 @@ import { useGetRecentPostsQuery } from "../../services/apiSlice";
 import { PostSection } from "../../Components/PostSection";
 
 function Home() {
-  const { data: posts, isLoading, isError } = useGetRecentPostsQuery();
+  const { data: posts,  isError } = useGetRecentPostsQuery();
  console.log(posts)
   return (
     <main className="home-wrapper">
@@ -24,12 +24,12 @@ function Home() {
 
      <div className="blog-home-page">
       {/* 1. Recent Posts (Type 2) */}
-      <PostSection title="Recent Posts" type={1} limit={5} />
+      <PostSection title="Recent Posts" type={2} limit={6} />
 
       {/* 2. Popular Posts (Type 3) */}
-      <PostSection title="Popular Posts" type={1} limit={5} />
+      <PostSection title="Popular Posts" type={3} limit={6} />
 
-      {/* 3. All Posts (Type 0) with See All button */}
+      {/* 3. All Posts (Type 1) with See All button */}
       <PostSection title="All Blogs" type={1} limit={30} showSeeAll={true} />
     </div>
     </main>

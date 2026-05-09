@@ -7,6 +7,7 @@ import {
   useReactToCommentMutation 
 } from '../services/apiSlice';
 import { useSelector } from 'react-redux';
+import { Edit, Trash } from 'lucide-react';
 
 const CommentItem = ({ comment, blogId }) => {
   const [isReplying, setIsReplying] = useState(false);
@@ -21,7 +22,7 @@ const CommentItem = ({ comment, blogId }) => {
   const [reactToComment] = useReactToCommentMutation();
 
   // Handle Image Path
-  const BASE_URL =`${import.meta.env.VITE_API_BASE_URL}`;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
   const userImg = comment.createdBy?.profileImagePath 
     ? `${BASE_URL}${comment.createdBy.profileImagePath}` 
     : "https://placehold.co/40x40/000000/ff0000?text=U";
@@ -124,8 +125,8 @@ function timeAgo(date) {
           <button className="yt-reply-trigger" onClick={() => setIsReplying(!isReplying)}>Reply</button>
           
           <div className="yt-owner-actions">
-          { (comment.blogAuthor===user.name) &&  <button className="yt-small-btn" onClick={() => setIsEditing(true)}><FaEdit /></button>}
-           {  (comment.blogAuthor===user.name) && <button className="yt-small-btn" onClick={() => deleteComment(comment.id)}><FaTrash /></button>}
+          { (comment.createdBy.name===user.name) &&  <button className="yt-small-btn" onClick={() => setIsEditing(true)}><FaEdit size={20} style={{color:"red"}} /></button>}
+           {  (comment.createdBy.name===user.name) && <button className="yt-small-btn" onClick={() => deleteComment(comment.id)}><FaTrash size={20}  style={{color:"red"}}/></button>}
           </div>
         </div>
 
