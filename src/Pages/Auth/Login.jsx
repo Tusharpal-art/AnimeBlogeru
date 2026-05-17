@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SetUsers } from "../../services/authSlice";
 import { useLoginUserMutation } from "../../services/apiSlice"; 
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff ,AlertCircle} from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,9 +17,7 @@ export default function Login() {
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+   
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
@@ -50,6 +48,15 @@ export default function Login() {
             src="/src/assets/Images/ChatGPT Image Nov 23, 2025, 06_09_30 PM.png"
             alt="Login visual"
           />
+
+          {error && (
+            <div style={{ backgroundColor: 'rgba(255,0,0,0.1)', padding: '10px', borderRadius: '5px', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertCircle size={16} color="yellow" />
+              <p style={{ color: "yellow", fontSize: '13px', margin: 0 }}>
+                {error.data?.message || "Invalid Email or Password"}
+              </p>
+            </div>
+          )}
         </div>
         <form onSubmit={handleSubmit} className="loginInput">
           <h2 style={{ color: "red" }}>Log In</h2>

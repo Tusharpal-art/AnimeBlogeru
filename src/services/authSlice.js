@@ -18,35 +18,39 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     SetUsers(state, action) {
-      // Extract data based on your API response structure
-      const responseData = action.payload.data?.data || action.payload.data || action.payload;
+  const responseData = action.payload.data?.data || action.payload.data || action.payload;
 
-      if (responseData && responseData.accessToken) {
-         // This contains name, profileImage, etc.
-        state.token = responseData.accessToken;
+  // Case A: Handling Login/Refresh (Contains AccessToken)
+  if (responseData && responseData.accessToken) {
+    state.token = responseData.accessToken;
+    const decoded = jwtDecode(responseData.accessToken);
+    const temp = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/";
+    
+    state.user = {
+      name: decoded[temp + "name"] || "User",
+      email: decoded[temp + "emailaddress"] || "",
+      profilePicture: decoded.ProfileImage || "",
+      id: decoded[temp + "nameidentifier"] || decoded.sub,
+      role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || "User",
+      accessToken: responseData.accessToken // Keep token inside user object for convenience
+    };
 
-         const decoded = jwtDecode(responseData.accessToken);
-          console.log("Decoded JWT Data:", decoded);   
-          const temp = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/";
-           state.user = {
-            name: decoded[temp + "name"] || "User",
-            email:  decoded[temp + "emailaddress"] || "",
-            // Use image from token OR from the API response if token doesn't have it
-            profilePicture: decoded.ProfileImage || "",
-            id:  decoded[temp + "nameidentifier"] || decoded.sub,
-            role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]|| "User"
-           }; 
-           console.log(state.user.name)
-        // CRITICAL: Save BOTH to localStorage
-        localStorage.setItem("token", responseData.accessToken);
-        console.log("authSlice User",state.user)
-        localStorage.setItem("user", JSON.stringify(state.user)); 
-        
-        console.log("Login Success: Token & User saved");
-      } else {
-        console.error("Login Error: AccessToken missing in payload");
-      }
-    },
+    localStorage.setItem("token", responseData.accessToken);
+    localStorage.setItem("user", JSON.stringify(state.user));
+  } 
+  // Case B: Handling Profile Update (Partial Data, No Token)
+  else if (responseData && (responseData.name || responseData.profileImgPath)) {
+    state.user = {
+      ...state.user,
+      name: responseData.name || state.user.name,
+      // Map 'profileImgPath' from API to 'profilePicture' in state
+      profilePicture: responseData.profileImagePath || state.user.profilePicture
+    };
+    
+    localStorage.setItem("user", JSON.stringify(state.user));
+    console.log("Profile state updated via partial data");
+  }
+},
     RemoveUser(state) {
       state.user = null;
       state.token = null;

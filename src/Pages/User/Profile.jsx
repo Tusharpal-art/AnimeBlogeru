@@ -48,9 +48,14 @@ console.log("profile",updateProfile)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    console.log("filebbb",file)
     if (file) {
-      setFormData({ ...formData, ProfileImage: file });
+    setFormData((prev) => ({
+      ...prev,
+      ProfileImage: file,
+    }));
       setPreview(URL.createObjectURL(file));
+      
       setIsEditing(true);
     }
   };
@@ -59,31 +64,30 @@ console.log("profile",updateProfile)
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append("Name", formData.Name);
-    data.append("Email", formData.Email);
-    data.append("PhoneNumber", formData.PhoneNumber);
-    if (formData.ProfileImage) {
-      data.append("ProfileImage", formData.ProfileImage);
-    }
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  const data = new FormData();
+  data.append("Name", formData.Name);
+  if (formData.ProfileImage instanceof File) {
+    data.append("ProfileImage", formData.ProfileImage);
+  }
 
-    try {
-      const res = await updateProfile(data).unwrap();
-      if (res.token) localStorage.setItem("token", res.token);
-      if (res.user) localStorage.setItem("user", JSON.stringify(res.user));
-      
-      if (res.token || res.user) {
-         dispatch(SetUsers({ data: res }));
-      }
+  console.log("img",data)
+
+  try {
+    const res = await updateProfile(data).unwrap();
+    
+    // Pass res.data (which contains name and profileImgPath) to the dispatch
+    if (res.success) {
+      dispatch(SetUsers(res.data)); 
       alert("Profile updated successfully!");
       setIsEditing(false);
-    } catch (err) {
-      console.error("Profile update failed", err);
-      alert(err?.data?.message || "Profile update failed");
     }
-  };
+  } catch (err) {
+    console.error("Profile update failed", err);
+    alert(err?.data?.message || "Profile update failed");
+  }
+};
 
   if (isLoading) return <div>Loading your blogs...</div>;
 
@@ -101,7 +105,7 @@ console.log("profile",updateProfile)
         {isEditing ? (
           <form className="edit-profile-form" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", marginTop: "20px" }}>
             <input type="text" name="Name" value={formData.Name} onChange={handleInputChange} placeholder="Name" required style={{ padding: "8px", borderRadius: "5px", width: "250px", border: "1px solid red", backgroundColor: "black", color: "white" }} />
-            <input type="email" name="Email" value={formData.Email} onChange={handleInputChange} placeholder="Email" required style={{ padding: "8px", borderRadius: "5px", width: "250px", border: "1px solid red", backgroundColor: "black", color: "white" }} />
+            
             
             <div style={{ display: "flex", gap: "10px" }}>
               <button type="submit" disabled={isUpdating} style={{ padding: "8px 20px", background: "red", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold" }}>

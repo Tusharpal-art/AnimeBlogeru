@@ -210,6 +210,7 @@ async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, refetch, getS
         url: "/Auth/ProfileUpdate",
         method: "PUT",
         body: formData,
+         formData: true,
       }),
       invalidatesTags: ["User", "Comment"],
     }),

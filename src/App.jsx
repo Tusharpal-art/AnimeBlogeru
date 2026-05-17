@@ -16,20 +16,16 @@ import ProtectedRoute from "../src/routes/ProtectedRoute.jsx";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />    
-
-
-        {/* --- PUBLIC ROUTES (Anyone can see) --- */}
+        {/* --- PUBLIC & USER ROUTES --- */}
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
-        
           
-          {/* --- PROTECTED USER ROUTES (Must be logged in) --- */}
+          {/* Regular Protected Routes (Any logged-in user) */}
           <Route element={<ProtectedRoute />}>
             <Route path="post/:id" element={<Post />} />
             <Route path="profile/:id" element={<Profile />} />
@@ -37,8 +33,9 @@ function App() {
           </Route>
         </Route>
 
-        {/* --- PROTECTED ADMIN ROUTES (Must be logged in) --- */}
-        <Route element={<ProtectedRoute />}>
+        {/* --- ADMIN ONLY ROUTES --- */}
+        {/* Pass "Admin" as the only allowed role */}
+        <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
           <Route path="/dashboard" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="addpost" element={<AddPost />} />
@@ -46,10 +43,9 @@ function App() {
             <Route path="allpost" element={<AllPost />} />
           </Route>
         </Route>
+        
       </Routes>
     </BrowserRouter>
-    </>
   );
 }
-
 export default App;
