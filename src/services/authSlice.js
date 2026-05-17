@@ -44,7 +44,7 @@ const authSlice = createSlice({
       ...state.user,
       name: responseData.name || state.user.name,
       // Map 'profileImgPath' from API to 'profilePicture' in state
-      profilePicture: responseData.profileImagePath || state.user.profilePicture
+      profilePicture: responseData.profileImgPath || state.user.profilePicture
     };
     
     localStorage.setItem("user", JSON.stringify(state.user));

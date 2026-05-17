@@ -67,9 +67,11 @@ console.log("profile",updateProfile)
  const handleSubmit = async (e) => {
   e.preventDefault();
   const data = new FormData();
-  data.append("Name", formData.Name);
+  data.append("Name", formData.Name || "");
+  data.append("Email", formData.Email || "");
+  data.append("PhoneNumber", formData.PhoneNumber || "");
   if (formData.ProfileImage instanceof File) {
-    data.append("ProfileImage", formData.ProfileImage);
+    data.append("ProfileImagePath", formData.ProfileImage);
   }
 
   console.log("img",data)
@@ -113,7 +115,7 @@ console.log("profile",updateProfile)
               </button>
               <button type="button" onClick={() => {
                 setIsEditing(false);
-                setPreview(profileImg ? `${BASE_URL}/Images/${profileImg}` : `https://ui-avatars.com/api/?name=${userName || "User"}&background=ff0000&color=fff&rounded=true`);
+                setPreview(profileImg ? `${BASE_URL}${profileImg}` : `https://ui-avatars.com/api/?name=${userName || "User"}&background=ff0000&color=fff&rounded=true`);
                 setFormData(prev => ({...prev, ProfileImage: null}));
               }} style={{ padding: "8px 20px", background: "#333", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>
                 Cancel
