@@ -22,8 +22,7 @@ function AddPost() {
 
 
 
-  // Added state for backend validation errors
-  const [backendErrors, setBackendErrors] = useState({});
+
   
 
   const fileInputRef = useRef(null);
@@ -76,7 +75,7 @@ function AddPost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setBackendErrors({}); // Clear errors on retry
+    
 
     //setBackendErrors({}); // Clear errors on retry
 
@@ -116,13 +115,7 @@ function AddPost() {
 
       
       // Extract backend validation errors (handles both standard object lists and single messages)
-      if (err?.data?.errors) {
-        setBackendErrors(err.data.errors);
-      } else if (err?.data?.message) {
-        setBackendErrors({ global: err.data.message });
-      } else {
-        setBackendErrors({ global: "Something went wrong on the server." });
-      }
+    
 
     }
   };
@@ -134,22 +127,7 @@ function AddPost() {
 
 
         
-        {/* Global Error Notice */}
-        {backendErrors.global && <p style={{ color: "red", margin: "0 0 10px 0" }}>{backendErrors.global}</p>}
         
-        <input type="text" placeholder="Title" required onChange={(e) => setBlogTitle(e.target.value)} />
-        {/* Title Error Display */}
-        {backendErrors.BlogTitle && <p style={{ color: "red", fontSize: "12px", margin: "-5px 0 10px 0" }}>{backendErrors.BlogTitle}</p>}
-        
-        <input type="text" placeholder="Author" value={blogAuthor} onChange={(e) => setBlogAuthor(e.target.value)} />
-        {/* Author Error Display */}
-        {backendErrors.BlogAuthor && <p style={{ color: "red", fontSize: "12px", margin: "-5px 0 10px 0" }}>{backendErrors.BlogAuthor}</p>}
-        
-        <textarea placeholder="Description" rows="4" required onChange={(e) => setBlogDescription(e.target.value)}></textarea>
-        {/* Description Error Display */}
-        {backendErrors.BlogDescription && <p style={{ color: "red", fontSize: "12px", margin: "-5px 0 10px 0" }}>{backendErrors.BlogDescription}</p>}
-
-
 
         
         
@@ -199,10 +177,7 @@ function AddPost() {
 
 
 
-        {/* Image Error Display */}
-        {backendErrors.Image && <p style={{ color: "red", fontSize: "12px", margin: "5px 0 10px 0" }}>{backendErrors.Image}</p>}
-        
-
+      
         <input type="file" hidden ref={fileInputRef} onChange={(e) => handleFile(e.target.files[0])} />
 
         <button type="submit" className="loginBtn" disabled={isLoading}>
