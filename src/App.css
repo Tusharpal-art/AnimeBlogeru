@@ -315,6 +315,12 @@ img, svg {
     z-index: 1;
 }
 
+.error-text{
+  color:red;
+  font-size:12px;
+  margin-top:4px;
+}
+
 .hero-overlay-dark {
     position: absolute;
     top: 0;

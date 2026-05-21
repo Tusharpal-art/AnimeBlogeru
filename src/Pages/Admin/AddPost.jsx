@@ -1,13 +1,21 @@
 import { useState, useRef } from "react";
 import { useCreatePostMutation } from "../../services/apiSlice";
 import { useNavigate } from "react-router-dom";
+import { useSelector  } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 function AddPost() {
+
+     const { user } = useSelector((state) => state.auth);
+   const decoded = user?.accessToken ? jwtDecode(user.accessToken) : null;
+    const userName = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
-  const [blogAuthor, setBlogAuthor] = useState("Admin");
+  const [blogAuthor, setBlogAuthor] = useState(userName);
   const [selectedFile, setSelectedFile] = useState(null);
-
+   
+  
   const [errors, setErrors] = useState({});
 
 
@@ -120,7 +128,7 @@ function AddPost() {
         <input
           type="text"
           placeholder="Author"
-          value={blogAuthor}
+          value={userName}
           onChange={(e) => { setBlogAuthor(e.target.value); setErrors(prev => ({ ...prev, blogAuthor: null })) }}
           style={errors.blogAuthor ? { borderColor: "red" } : {}}
         />

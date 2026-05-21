@@ -17,6 +17,7 @@ function Post() {
     const navigate = useNavigate();
     const [commentText, setCommentText] = useState(""); 
     const { user } = useSelector((state) => state.auth);
+    const [replyError, setReplyError] = useState("");
     console.log("user",user)
     const userAvatar = user?.profilePicture || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
     
@@ -82,6 +83,10 @@ function Post() {
 
     const handleCommentSubmit = async () => {
         if (!commentText.trim()) return;
+         if (commentText.length > 500) {
+    setReplyError("Comment cannot exceed 500 characters");
+    return;
+  } 
         const payload = {
             commentContent: commentText,
             commentLiskes: 0,
@@ -225,8 +230,15 @@ function Post() {
             {/* Comment Section remains below */}
         <div className="commentbox">
                 <h2>Leave a Comment</h2>
-                
+                <div >
+                      {replyError && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "4px" , paddingLeft:"4rem"}}>
+              {replyError}
+            </p>
+          )}
+                </div>
                 <div className="input-group">
+                       
                     {/* Logged in User Avatar */}
                     <img src={`${BASE_URL}${userAvatar}`} alt="user" className="user-comment-avatar" />
                     
@@ -234,9 +246,19 @@ function Post() {
                         type="text" 
                         placeholder={isPosting ? "Posting..." : "Join the discussion..."}
                         value={commentText}
-                        onChange={(e) => setCommentText(e.target.value)}
+                        onChange={(e) => {
+                        const value = e.target.value;
+                       setCommentText(value);
+
+                        if (value.length > 500) {
+                          setReplyError("Comment cannot exceed 500 characters");
+                        } else {
+                          setReplyError("");
+                        }
+                      }}
                         disabled={isPosting}
                     />
+                   
                     
                     <button 
                         className="loginBtn" 
