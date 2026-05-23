@@ -130,7 +130,7 @@ const CommentItem = ({ comment, blogId }) => {
              
               onChange={(e) => {
                         const value = e.target.value;
-                        setReplyText(value);
+                        setEditText(value);
 
                         if (value.length > 500) {
                           setReplyError("Comment cannot exceed 500 characters");

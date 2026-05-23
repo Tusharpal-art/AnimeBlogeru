@@ -11,17 +11,23 @@ function Profile() {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const decoded = user?.accessToken ? jwtDecode(user.accessToken) : null;
-  const userName = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+  const userName = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
   const userEmail = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
   const profileImg = user?.profilePicture || null;
   const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
 
-  const { data: allPosts, isLoading } = useGetRecentPostsQuery({pageSize: 30});
-  const myBlogs = allPosts?.data?.records?.filter((post) => post.blogAuthor === userName) || [];
+ const { data, isLoading } = useGetRecentPostsQuery({
+    pageSize: 30, // Fetching enough to have a pool
+    BlogType: 1
+  });
+
+  const posts = data?.data?.records || [];
+   
 
   const [isEditing, setIsEditing] = useState(false);
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
 
+  const [imageError, setImageError] = useState("");
   const [formData, setFormData] = useState({
     Name: userName || "",
     Email: userEmail || "",
@@ -48,7 +54,19 @@ console.log("profile",updateProfile)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log("filebbb",file)
+     if (!file) return;
+
+  const maxSize = 2 * 1024 * 1024; // 2MB
+
+  if (file.size > maxSize) {
+    setImageError("Image size should not exceed 2 MB");
+    e.target.value = null; // reset input
+    return; // ❌ stop further execution
+  }
+
+  // ✅ clear error if valid
+  setImageError("");
+
     if (file) {
     setFormData((prev) => ({
       ...prev,
@@ -103,7 +121,12 @@ console.log("profile",updateProfile)
           </label>
           <input id="fileInput" type="file" style={{ display: "none" }} onChange={handleFileChange} />
         </div>
-        
+        {imageError && (
+  <p style={{ color: "red", marginTop: "8px", fontSize: "13px" }}>
+    {imageError}
+  </p>
+)}
+
         {isEditing ? (
           <form className="edit-profile-form" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", marginTop: "20px" }}>
             <input type="text" name="Name" value={formData.Name} onChange={handleInputChange} placeholder="Name" required style={{ padding: "8px", borderRadius: "5px", width: "250px", border: "1px solid red", backgroundColor: "black", color: "white" }} />
@@ -145,16 +168,21 @@ console.log("profile",updateProfile)
       </div>
 
       <div className="my-blogs-grid">
-        {myBlogs.length > 0 ? (
-          myBlogs.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))
-        ) : (
-          <>
-          <p>You haven't posted any blogs yet.</p>
-          
-          </>
-        )}
+       <div className="section-header">
+      <h2 style={{color:"red" , textAlign:"center", marginTop:'1rem'}}>My B</h2>
+    </div>
+
+    {/* Added the horizontal-scroll class here */}
+    <div className="postList horizontal-scroll">
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))
+      ) : (
+        <p>No posts available.</p>
+      )}
+    </div>
+       
       </div>
     </div>
   );

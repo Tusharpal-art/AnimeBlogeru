@@ -3,7 +3,7 @@ import { useGetRecentPostsQuery } from "../services/apiSlice";
  
 
 export const PostSection = ({ title, type, limit = 4,IsAscending=false }) => {
-  console.log(type)
+  console.log( "profile Type " ,type)
     console.log(title)
       console.log(limit)
   const { data, isLoading, isError } = useGetRecentPostsQuery({
