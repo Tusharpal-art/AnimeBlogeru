@@ -13,6 +13,8 @@ import AllPost from "./Pages/Admin/AllPost.jsx";
 import Login from "./Pages/Auth/Login.jsx";
 import Register from "./Pages/Auth/Register.jsx";
 import ProtectedRoute from "../src/routes/ProtectedRoute.jsx";
+import About from "./Pages/User/About.jsx";
+ import Contact from "./Pages/User/Contact.jsx";
 
 function App() {
   return (
@@ -24,12 +26,15 @@ function App() {
         {/* --- PUBLIC & USER ROUTES --- */}
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
+             <Route  path="/contact" element={<Contact/>} />
           
           {/* Regular Protected Routes (Any logged-in user) */}
           <Route element={<ProtectedRoute />}>
             <Route path="post/:id" element={<Post />} />
             <Route path="profile/:id" element={<Profile />} />
             <Route path="addpost" element={<AddPost />} />
+             <Route  path="/about" element={<About />} />
+           
           </Route>
         </Route>
 

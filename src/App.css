@@ -624,3 +624,380 @@ img, svg {
   width: 100%;
   z-index: 999;
 }
+
+.burogu-footer {
+  background-color: #0b0b0b;
+  color: #b3b3b3;
+  padding: 50px 20px 20px 20px;
+  border-top: 1px solid #1a1a1a;
+  font-family: sans-serif;
+  margin-top: 50px;
+}
+
+.footer-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.footer-brand h2 {
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.footer-brand .jp-text {
+  color: #ff0000;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.footer-brand p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-socials a {
+  color: #b3b3b3;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+  color: #ff0000;
+}
+
+.footer-links h3, .footer-newsletter h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+  color: #b3b3b3;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+  color: #ff0000;
+  padding-left: 5px;
+}
+
+.footer-newsletter p {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #333;
+  background-color: #141414;
+  color: #ffffff;
+  border-radius: 4px;
+  outline: none;
+}
+
+.newsletter-form button {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.newsletter-form button:hover {
+  background-color: #cc0000;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 20px auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-bottom-links a {
+  color: #b3b3b3;
+  text-decoration: none;
+}
+
+.footer-bottom-links a:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
+/* About Page Styles */
+.about-container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 0 20px;
+  color: #e0e0e0;
+ 
+}
+
+.about-hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.about-hero h1 {
+  font-size: 42px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.about-hero .jp-accent, .contact-header .jp-accent {
+  color: #ff0000;
+  font-size: 28px;
+  margin-left: 10px;
+}
+
+.about-hero .subtitle {
+  color: #888;
+  font-size: 18px;
+}
+
+.about-section {
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  padding: 30px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.about-section h2 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.about-section .jp-sub {
+  color: #ff0000;
+  font-size: 14px;
+}
+
+.about-section p {
+  line-height: 1.7;
+  color: #b3b3b3;
+}
+
+.about-cta {
+  text-align: center;
+  margin-top: 50px;
+  padding: 40px;
+  background: linear-gradient(180deg, #0d0d0d 0%, #050505 100%);
+  border-radius: 8px;
+  border: 1px dashed #333;
+}
+
+.about-cta h3 {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.about-cta p {
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.cta-btn, .contact-submit-btn {
+  background: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cta-btn:hover, .contact-submit-btn:hover {
+  background: #cc0000;
+}
+
+/* Contact Page Styles */
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 40px 20px;
+}
+
+.contact-card {
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  padding: 40px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 550px;
+}
+
+.contact-header {
+  margin-bottom: 30px;
+}
+
+.contact-header h1 {
+  color: #fff;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.contact-header p {
+  color: #888;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input-group input, .input-group textarea {
+  background: #000;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  outline: none;
+  font-family: sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus, .input-group textarea:focus {
+  border-color: #ff0000;
+}
+
+.success-box {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.success-box h3 {
+  color: #2ecc71;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.success-box p {
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.reset-btn {
+  background: transparent;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+  background: #ff0000;
+  color: #fff;
+}
+
+.nav-text-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-text-link:hover {
+  color: #ff0000; /* Matches your red accent color */
+}
+
+/* Ensure perfect alignment on mobile views */
+@media (max-width: 480px) {
+  .nav-links-left {
+    gap: 12px !important;
+  }
+  .nav-text-link {
+    font-size: 13px;
+  }
+}
+
+/* Hover effect for the email link */
+.contact-email-link:hover {
+  color: #ff0000 !important; /* Turns red on hover */
+}
+
+/* Hover effect for the social icons */
+.contact-social-icon {
+  color: #b3b3b3;
+  font-size: 28px;
+  transition: all 0.3s ease;
+}
+
+.contact-social-icon:hover {
+  color: #ff0000;
+  transform: translateY(-3px); /* Slightly moves up when hovered */
+}

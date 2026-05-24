@@ -1,6 +1,7 @@
 import RecentPost from "../../Components/RecentPost";
 import { useGetRecentPostsQuery } from "../../services/apiSlice";
 import { PostSection } from "../../Components/PostSection";
+import Footer from "../../Components/Footer";
 
 function Home() {
   const { data: posts,  isError } = useGetRecentPostsQuery();
@@ -32,6 +33,8 @@ function Home() {
       {/* 3. All Posts (Type 1) with See All button */}
       <PostSection title="All Blogs" type={1} limit={30} showSeeAll={true} />
     </div>
+
+    <Footer />
     </main>
   );
 }

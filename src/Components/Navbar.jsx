@@ -12,8 +12,9 @@ function Navbar({ toggleSidebar }) {
   const dropRef = useRef(null);
   const { userId } = useParams();
 
-  console.log("userId",userId)
- const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
+  console.log("userId", userId);
+  const BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
   // Decode and find profile image logic
   //const decoded = user?.accessToken ? jwtDecode(user.accessToken) : null;
   const profileImg =
@@ -41,7 +42,7 @@ function Navbar({ toggleSidebar }) {
   };
 
   return (
-    <nav className="navbar" style={{position:"sticky"}}>
+    <nav className="navbar" style={{ position: "sticky" }}>
       <div className="nav-left">
         <div className="menu-icon" onClick={toggleSidebar}>
           <span></span>
@@ -56,7 +57,18 @@ function Navbar({ toggleSidebar }) {
         </div>
       </div>
 
-      <div ref={dropRef} className="nav-right">
+   <div ref={dropRef} className="nav-right" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+        <div
+          className="nav-links-left"
+          style={{ display: "flex", gap: "20px" }}
+        >
+          <Link to="/about" className="nav-text-link">
+            About
+          </Link>
+          <Link to="/contact" className="nav-text-link">
+            Contact
+          </Link>
+        </div>
         {user ? (
           <div className="profile-container">
             <div
@@ -65,11 +77,7 @@ function Navbar({ toggleSidebar }) {
             >
               <img
                 className="nav-avatar"
-                src={
-                  profileImg
-                    ? `${BASE_URL}${profileImg}`
-                    : ""
-                }
+                src={profileImg ? `${BASE_URL}${profileImg}` : ""}
                 onError={handleImgError}
                 alt="User"
               />
@@ -92,14 +100,14 @@ function Navbar({ toggleSidebar }) {
                   </Link>
                 )}
 
-                {location.pathname === "/"  ? (
+                {location.pathname === "/" ? (
                   <Link
                     to={`/profile/${user.id}`}
                     onClick={() => setOpen(false)}
                     className="drop-item"
                   >
                     Profile
-                  </Link> 
+                  </Link>
                 ) : (
                   <Link to="/" className="drop-item">
                     Home
