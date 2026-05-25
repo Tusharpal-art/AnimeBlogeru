@@ -97,12 +97,12 @@ function AddPost() {
 
     // Debug: See exactly what is being sent in the browser console
     for (let pair of formData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
+     // console.log(pair[0] + ': ' + pair[1]);
     }
 
     try {
       await createPost(formData).unwrap();
-      alert("Post Created Successfully! 🎉");
+      alert("Post Created Successfully ");
       navigate("/");
     } catch (err) {
       console.error("Failed to save: ", err);

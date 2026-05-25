@@ -5,7 +5,7 @@ import Footer from "../../Components/Footer";
 
 function Home() {
   const { data: posts,  isError } = useGetRecentPostsQuery();
- console.log(posts)
+ //console.log(posts)
   return (
     <main className="home-wrapper">
       <div className="outerContainer">
@@ -31,7 +31,7 @@ function Home() {
       <PostSection title="Popular Posts" type={3} limit={6} />
 
       {/* 3. All Posts (Type 1) with See All button */}
-      <PostSection title="All Blogs" type={1} limit={30} showSeeAll={true} />
+      <PostSection title="All Blogs" type={0} limit={30} showSeeAll={true} />
     </div>
 
     <Footer />

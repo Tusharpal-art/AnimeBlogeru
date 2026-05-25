@@ -25,7 +25,7 @@ export const getSignalRConnection = (token) => {
   });
 
   connection.onclose((error) => {
-    console.log("SignalR closed:", error);
+   console.log("SignalR closed:", error);
     startPromise = null;
   });
 

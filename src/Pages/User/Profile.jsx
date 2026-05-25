@@ -35,7 +35,7 @@ function Profile() {
     ProfileImage: null
   });
 
-console.log("profile",updateProfile)
+//console.log("profile",updateProfile)
 
   const [preview, setPreview] = useState(
     profileImg 
@@ -92,7 +92,7 @@ console.log("profile",updateProfile)
     data.append("ProfileImagePath", formData.ProfileImage);
   }
 
-  console.log("img",data)
+  //console.log("img",data)
 
   try {
     const res = await updateProfile(data).unwrap();

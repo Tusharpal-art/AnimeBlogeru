@@ -35,7 +35,7 @@ const CommentItem = ({ comment, blogId }) => {
     ? `${BASE_URL}${comment.createdBy.profileImagePath}`
     : "https://placehold.co/40x40/000000/ff0000?text=U";
 
-  console.log("like", reactToComment);
+ // console.log("like", reactToComment);
 
   const handleReplySubmit = async () => {
     if (!replyText.trim()) return;

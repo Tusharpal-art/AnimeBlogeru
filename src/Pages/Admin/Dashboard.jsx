@@ -5,7 +5,7 @@ function Dashboard() {
     // 1. Call the hook to fetch data
     // It automatically handles the GET request and SignalR group joining
     const { data, isLoading, isError } = useGetDashboardInfoQuery();
-    console.log("Dashboard data",data?.firstValue);
+   // console.log("Dashboard data",data?.firstValue);
 
     // 2. Handle Loading and Error states
     if (isLoading) return <div>Loading Dashboard...</div>;

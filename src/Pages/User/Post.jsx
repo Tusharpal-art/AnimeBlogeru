@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaPen } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaPen,FaCamera } from "react-icons/fa";
 import { 
     useGetSinglePostQuery, 
     useCreateCommentMutation, 
@@ -18,7 +18,7 @@ function Post() {
     const [commentText, setCommentText] = useState(""); 
     const { user } = useSelector((state) => state.auth);
     const [replyError, setReplyError] = useState("");
-    console.log("user",user)
+   // console.log("user",user)
     const userAvatar = user?.profilePicture || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
     
     // API Hooks
@@ -36,6 +36,10 @@ function Post() {
     const [isEditingBlog, setIsEditingBlog] = useState(false);
     const [editBlogTitle, setEditBlogTitle] = useState("");
     const [editBlogDesc, setEditBlogDesc] = useState("");
+
+    const [selectedImageFile, setSelectedImageFile] = useState(null);
+    const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+    const [errors, setErrors] = useState({});
 
     // Data Extraction
     const postData = data?.data?.data || data?.data || {};
@@ -59,7 +63,7 @@ function Post() {
   // --- USE IT HERE ---
   const commentTree = buildTree(commentsArray);
   
-      console.log("tree",commentTree)
+      //console.log("tree",commentTree)
 
     // --- IMAGE LOGIC INTEGRATION --
     
@@ -76,9 +80,9 @@ function Post() {
   // 3. Construct URL: 
   // If the path already has 'images/', don't add 'Images/' again.
   // Use lowercase 'images' to match your error log output.
-  const imageSrc = (path === "string" || path === "stridfadfang" || !path) 
-    ? FALLBACK_IMG 
-    : `${BASE_URL}/${path}`;
+ const imageSrc = imagePreviewUrl 
+        ? imagePreviewUrl
+        : ((path === "string" || path === "stridfadfang" || !path) ? FALLBACK_IMG : `${BASE_URL}/${path}`);
      
 
     const handleCommentSubmit = async () => {
@@ -105,9 +109,9 @@ function Post() {
     const handlePostReaction = async (type) => {
         try {
             // Type 1 for Like, Type 2 for Dislike (Assuming based on provided URL ?BlogId=...&Type=1)
-             console.log("blog id",id,type);
+           //  console.log("blog id",id,type);
             await likeDislikePost({ blogId: id, type }).unwrap();
-            console.log("blog id",id);
+           // console.log("blog id",id);
         } catch (err) {
             console.error("Failed to react to post:", err);
         }
@@ -119,7 +123,72 @@ function Post() {
         setIsEditingBlog(true);
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+    //    if (file && file.type.startsWith("image/")) {
+    //         if (file.size > 2 * 1024 * 1024) {  
+    //             setErrors((prev) => ({ ...prev, selectedImageFile: "Image size must be less than 2MB" }));
+    //             setSelectedImageFile(null);
+    //             setImagePreviewUrl(null);
+    //         } else {
+    //             setSelectedImageFile(file);
+    //             setImagePreviewUrl(URL.createObjectURL(file));
+    //             setErrors((prev) => ({ ...prev, selectedImageFile: null }));
+    //         }
+    //     } else {
+    //         setErrors((prev) => ({ ...prev, selectedImageFile: "Please upload a valid image file." }));
+    //         setSelectedImageFile(null);
+    //         setImagePreviewUrl(null);
+    //     }
+     if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const maxSize = 2 * 1024 * 1024; // 2MB
+
+    let errorMsg = "";
+
+    if (!allowedTypes.includes(file.type)) {
+        errorMsg = "Only JPG, JPEG, and PNG formats are allowed.";
+    } else if (file.size > maxSize) {
+        errorMsg = "Image size must be less than 2MB.";
+    }
+
+    if (errorMsg) {
+        setErrors((prev) => ({ ...prev, selectedImageFile: errorMsg }));
+        setSelectedImageFile(null);
+        setImagePreviewUrl(null);
+        return;
+    }
+
+    // valid case
+    setSelectedImageFile(file);
+    setImagePreviewUrl(URL.createObjectURL(file));
+    setErrors((prev) => ({ ...prev, selectedImageFile: null }));
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!editBlogTitle.trim()) {
+            newErrors.editBlogTitle = "Title is required";
+        } else if (editBlogTitle.trim().length < 10) {
+            newErrors.editBlogTitle = "Title must be at least 10 characters long";
+        }
+
+        if (!editBlogDesc.trim()) {
+            newErrors.editBlogDesc = "Description is required";
+        } else if (editBlogDesc.trim().length < 10) {
+            newErrors.editBlogDesc = "Description must be at least 10 characters long";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleUpdateBlog = async () => {
+        if (!validateForm()) return;
+
+         if (errors.selectedImageFile) return;
+
         try {
             const formData = new FormData();
             formData.append("Id", id);
@@ -129,10 +198,16 @@ function Post() {
             
             // If we have an image update mechanism later, we'd append it here.
             // For now, we append an empty string as per the cURL example to satisfy the backend
-            formData.append("Image", "");
+           if (selectedImageFile) {
+                formData.append("Image", selectedImageFile);
+            } else {
+                formData.append("Image", "");
+            }
 
-            await updatePost(formData).unwrap();
+           await updatePost(formData).unwrap();
             setIsEditingBlog(false);
+            setSelectedImageFile(null);
+            setImagePreviewUrl(null);
         } catch (err) {
             console.error("Failed to update post:", err);
         }
@@ -163,6 +238,53 @@ function Post() {
                 
                 {/* Dark Gradient Overlay for Text Readability */}
                 <div className="hero-overlay-dark" />
+                {isEditingBlog && (
+                    <>
+                          <label className="change-photo-overlay" style={{
+                        position: "absolute",
+                        top: "20px",
+                        right: "20px",
+                        background: "rgba(0,0,0,0.7)",
+                        color: "#fff",
+                        padding: "10px 15px",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        zIndex: 10,
+                        border: "1px dashed #ff0000"
+                    }}>
+                      
+                        <FaCamera /> Change Banner Image
+                        
+                        <input 
+                            type="file" 
+                            accept=".jpg,.jpeg,.png"
+                            onChange={handleFileChange} 
+                            style={{ display: "none" }} 
+                        />
+                        
+
+                          {errors.selectedImageFile && (
+                        <p style={{
+                            position: "absolute",
+                            top: "65px",
+                            right: "20px",
+                            color: "red",
+                            fontSize: "12px",
+                            background: "rgba(0,0,0,0.6)",
+                            padding: "4px 8px",
+                            borderRadius: "4px"
+                        }}>
+                            {errors.selectedImageFile}
+                        </p>
+        )}
+                    </label>
+                   
+                    </>
+              
+                )}
 
                 <div className="hero-content-inner">
                   { /* <span className="hero-timestamp">15 minutes ago</span>*/}

@@ -3,9 +3,9 @@ import { useGetRecentPostsQuery } from "../services/apiSlice";
  
 
 export const PostSection = ({ title, type, limit = 4,IsAscending=false }) => {
-  console.log( "profile Type " ,type)
-    console.log(title)
-      console.log(limit)
+  //console.log( "profile Type " ,type)
+   // console.log(title)
+    //  console.log(limit)
   const { data, isLoading, isError } = useGetRecentPostsQuery({
     pageSize: 30, // Fetching enough to have a pool
     BlogType: type,

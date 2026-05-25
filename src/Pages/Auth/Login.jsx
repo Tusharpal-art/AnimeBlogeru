@@ -45,7 +45,7 @@ export default function Login() {
         <div className="img-section">
           <img
             className="loginImg"
-            src="/src/assets/Images/ChatGPT Image Nov 23, 2025, 06_09_30 PM.png"
+            src="/public/Images/ChatGPT Image Nov 23, 2025, 06_09_30 PM.png"
             alt="Login visual"
           />
 

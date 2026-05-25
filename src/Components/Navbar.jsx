@@ -12,7 +12,7 @@ function Navbar({ toggleSidebar }) {
   const dropRef = useRef(null);
   const { userId } = useParams();
 
-  console.log("userId", userId);
+  //console.log("userId", userId);
   const BASE_URL =
     import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
   // Decode and find profile image logic
