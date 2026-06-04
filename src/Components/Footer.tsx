@@ -28,6 +28,7 @@ function Footer() {
             <li><Link to="/addpost">Write a Blog</Link></li>
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/contact">Contact</Link></li>
+             <li><Link to="/privacy">Privacy</Link></li>
           </ul>
         </div>
 

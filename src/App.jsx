@@ -15,6 +15,7 @@ import Register from "./Pages/Auth/Register.jsx";
 import ProtectedRoute from "../src/routes/ProtectedRoute.jsx";
 import About from "./Pages/User/About.jsx";
  import Contact from "./Pages/User/Contact.jsx";
+import PrivacyPolicy from "./Pages/User/PrivacyPolicy.jsx";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="profile/:id" element={<Profile />} />
             <Route path="addpost" element={<AddPost />} />
              <Route  path="/about" element={<About />} />
+               <Route  path="/privacy" element={<PrivacyPolicy />} />
            
           </Route>
         </Route>

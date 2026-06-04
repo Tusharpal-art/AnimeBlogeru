@@ -68,6 +68,9 @@ function Navbar({ toggleSidebar }) {
           <Link to="/contact" className="nav-text-link">
             Contact
           </Link>
+          <Link to="/privacy" className="nav-text-link">
+          Privacy Policy
+          </Link>
         </div>
         {user ? (
           <div className="profile-container">
