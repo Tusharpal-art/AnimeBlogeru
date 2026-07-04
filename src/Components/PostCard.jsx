@@ -16,9 +16,9 @@ function PostCard({ post }) {
 
      const { user } = useSelector((state) => state.auth);  
   const [deletePost] = useDeletePostMutation();
-
+ 
   // Logic: Can delete if they are the Author OR the Admin
-  const canDelete = (post.blogAuthor===user.name)   /*user?.username === post.blogAuthor || user?.role === "Admin";*/
+  const canDelete = (user && user.name === post.blogAuthor)   /*user?.username === post.blogAuthor || user?.role === "Admin";*/
 
   const handleDelete = async (e) => {
     e.stopPropagation();

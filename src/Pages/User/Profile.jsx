@@ -169,7 +169,7 @@ function Profile() {
 
       <div className="my-blogs-grid">
        <div className="section-header">
-      <h2 style={{color:"red" , textAlign:"center", marginTop:'1rem'}}>My B</h2>
+      <h2 style={{color:"red" , textAlign:"center", marginTop:'1rem'}}>My Blogs</h2>
     </div>
 
     {/* Added the horizontal-scroll class here */}

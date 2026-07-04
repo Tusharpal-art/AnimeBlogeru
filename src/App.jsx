@@ -27,11 +27,12 @@ function App() {
         {/* --- PUBLIC & USER ROUTES --- */}
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
+               <Route path="post/:id" element={<Post />} />
              <Route  path="/contact" element={<Contact/>} />
           
           {/* Regular Protected Routes (Any logged-in user) */}
           <Route element={<ProtectedRoute />}>
-            <Route path="post/:id" element={<Post />} />
+           
             <Route path="profile/:id" element={<Profile />} />
             <Route path="addpost" element={<AddPost />} />
              <Route  path="/about" element={<About />} />

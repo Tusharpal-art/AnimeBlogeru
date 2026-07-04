@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaPen,FaCamera } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaPen, FaCamera } from "react-icons/fa";
 import { 
     useGetSinglePostQuery, 
     useCreateCommentMutation, 
@@ -18,8 +18,10 @@ function Post() {
     const [commentText, setCommentText] = useState(""); 
     const { user } = useSelector((state) => state.auth);
     const [replyError, setReplyError] = useState("");
-   // console.log("user",user)
-    const userAvatar = user?.profilePicture || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+    
+    // 1. Safe guard user avatar for guests
+    const DEFAULT_AVATAR = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+    const userAvatar = user?.profilePicture ? user.profilePicture : DEFAULT_AVATAR;
     
     // API Hooks
     const { data, isLoading: isBlogLoading, isError } = useGetSinglePostQuery(id);
@@ -46,51 +48,38 @@ function Post() {
     const commentsArray = commentsResponse?.data?.records || [];
 
     const buildTree = (flatComments) => {
-    const map = {};
-    const tree = [];
-    flatComments.forEach(c => map[c.id] = { ...c, replies: [] });
-    flatComments.forEach(c => {
-      if (c.parentCommentId && map[c.parentCommentId]) {
-        map[c.parentCommentId].replies.push(map[c.id]);
-      } else {
-        tree.push(map[c.id]);
-      }
- 
-    });
-    return tree;
-  };
+        const map = {};
+        const tree = [];
+        flatComments.forEach(c => map[c.id] = { ...c, replies: [] });
+        flatComments.forEach(c => {
+            if (c.parentCommentId && map[c.parentCommentId]) {
+                map[c.parentCommentId].replies.push(map[c.id]);
+            } else {
+                tree.push(map[c.id]);
+            }
+        });
+        return tree;
+    };
 
-  // --- USE IT HERE ---
-  const commentTree = buildTree(commentsArray);
+    const commentTree = buildTree(commentsArray);
   
-      //console.log("tree",commentTree)
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
+    const FALLBACK_IMG = "https://placehold.co/600x400/000000/ff0000?text=Burogu+Blog";
 
-    // --- IMAGE LOGIC INTEGRATION --
-    
- 
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
-  const FALLBACK_IMG = "https://placehold.co/600x400/000000/ff0000?text=Burogu+Blog";
+    let path = postData.blogImgagePath || "";
+    if (path.startsWith('/')) path = path.substring(1);
 
-  // 2. Logic to handle the path
-  let path = postData.blogImgagePath || "";
-
-  // Remove leading slashes if any, to avoid //
-  if (path.startsWith('/')) path = path.substring(1);
-
-  // 3. Construct URL: 
-  // If the path already has 'images/', don't add 'Images/' again.
-  // Use lowercase 'images' to match your error log output.
- const imageSrc = imagePreviewUrl 
+    const imageSrc = imagePreviewUrl 
         ? imagePreviewUrl
         : ((path === "string" || path === "stridfadfang" || !path) ? FALLBACK_IMG : `${BASE_URL}/${path}`);
-     
 
     const handleCommentSubmit = async () => {
+        if (!user) return; // Prevent guests from firing actions
         if (!commentText.trim()) return;
-         if (commentText.length > 500) {
-    setReplyError("Comment cannot exceed 500 characters");
-    return;
-  } 
+        if (commentText.length > 500) {
+            setReplyError("Comment cannot exceed 500 characters");
+            return;
+        } 
         const payload = {
             commentContent: commentText,
             commentLiskes: 0,
@@ -107,11 +96,12 @@ function Post() {
     };
 
     const handlePostReaction = async (type) => {
+        if (!user) {
+         navigate("/login")
+            return;
+        }
         try {
-            // Type 1 for Like, Type 2 for Dislike (Assuming based on provided URL ?BlogId=...&Type=1)
-           //  console.log("blog id",id,type);
             await likeDislikePost({ blogId: id, type }).unwrap();
-           // console.log("blog id",id);
         } catch (err) {
             console.error("Failed to react to post:", err);
         }
@@ -125,45 +115,29 @@ function Post() {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-    //    if (file && file.type.startsWith("image/")) {
-    //         if (file.size > 2 * 1024 * 1024) {  
-    //             setErrors((prev) => ({ ...prev, selectedImageFile: "Image size must be less than 2MB" }));
-    //             setSelectedImageFile(null);
-    //             setImagePreviewUrl(null);
-    //         } else {
-    //             setSelectedImageFile(file);
-    //             setImagePreviewUrl(URL.createObjectURL(file));
-    //             setErrors((prev) => ({ ...prev, selectedImageFile: null }));
-    //         }
-    //     } else {
-    //         setErrors((prev) => ({ ...prev, selectedImageFile: "Please upload a valid image file." }));
-    //         setSelectedImageFile(null);
-    //         setImagePreviewUrl(null);
-    //     }
-     if (!file) return;
+        if (!file) return;
 
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-    const maxSize = 2 * 1024 * 1024; // 2MB
+        const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+        const maxSize = 2 * 1024 * 1024; // 2MB
 
-    let errorMsg = "";
+        let errorMsg = "";
 
-    if (!allowedTypes.includes(file.type)) {
-        errorMsg = "Only JPG, JPEG, and PNG formats are allowed.";
-    } else if (file.size > maxSize) {
-        errorMsg = "Image size must be less than 2MB.";
-    }
+        if (!allowedTypes.includes(file.type)) {
+            errorMsg = "Only JPG, JPEG, and PNG formats are allowed.";
+        } else if (file.size > maxSize) {
+            errorMsg = "Image size must be less than 2MB.";
+        }
 
-    if (errorMsg) {
-        setErrors((prev) => ({ ...prev, selectedImageFile: errorMsg }));
-        setSelectedImageFile(null);
-        setImagePreviewUrl(null);
-        return;
-    }
+        if (errorMsg) {
+            setErrors((prev) => ({ ...prev, selectedImageFile: errorMsg }));
+            setSelectedImageFile(null);
+            setImagePreviewUrl(null);
+            return;
+        }
 
-    // valid case
-    setSelectedImageFile(file);
-    setImagePreviewUrl(URL.createObjectURL(file));
-    setErrors((prev) => ({ ...prev, selectedImageFile: null }));
+        setSelectedImageFile(file);
+        setImagePreviewUrl(URL.createObjectURL(file));
+        setErrors((prev) => ({ ...prev, selectedImageFile: null }));
     };
 
     const validateForm = () => {
@@ -186,8 +160,7 @@ function Post() {
 
     const handleUpdateBlog = async () => {
         if (!validateForm()) return;
-
-         if (errors.selectedImageFile) return;
+        if (errors.selectedImageFile) return;
 
         try {
             const formData = new FormData();
@@ -196,15 +169,13 @@ function Post() {
             formData.append("BlogDescription", editBlogDesc);
             formData.append("BlogAuthor", postData.blogAuthor || "Admin");
             
-            // If we have an image update mechanism later, we'd append it here.
-            // For now, we append an empty string as per the cURL example to satisfy the backend
-           if (selectedImageFile) {
+            if (selectedImageFile) {
                 formData.append("Image", selectedImageFile);
             } else {
                 formData.append("Image", "");
             }
 
-           await updatePost(formData).unwrap();
+            await updatePost(formData).unwrap();
             setIsEditingBlog(false);
             setSelectedImageFile(null);
             setImagePreviewUrl(null);
@@ -217,7 +188,7 @@ function Post() {
         if (window.confirm("Are you sure you want to delete this blog post?")) {
             try {
                 await deletePost(id).unwrap();
-                navigate("/"); // Redirect to home on delete
+                navigate("/"); 
             } catch (err) {
                 console.error("Failed to delete post:", err);
             }
@@ -229,66 +200,59 @@ function Post() {
 
     return (
         <div className="post-page"> 
-          <header className="blog-hero">
-                {/* The Main Background Image */}
+            <header className="blog-hero">
                 <div 
                     className="hero-image-layer" 
                     style={{ backgroundImage: `url(${imageSrc})` }} 
                 />
                 
-                {/* Dark Gradient Overlay for Text Readability */}
                 <div className="hero-overlay-dark" />
                 {isEditingBlog && (
                     <>
-                          <label className="change-photo-overlay" style={{
-                        position: "absolute",
-                        top: "20px",
-                        right: "20px",
-                        background: "rgba(0,0,0,0.7)",
-                        color: "#fff",
-                        padding: "10px 15px",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        zIndex: 10,
-                        border: "1px dashed #ff0000"
-                    }}>
-                      
-                        <FaCamera /> Change Banner Image
-                        
-                        <input 
-                            type="file" 
-                            accept=".jpg,.jpeg,.png"
-                            onChange={handleFileChange} 
-                            style={{ display: "none" }} 
-                        />
-                        
-
-                          {errors.selectedImageFile && (
-                        <p style={{
+                        <label className="change-photo-overlay" style={{
                             position: "absolute",
-                            top: "65px",
+                            top: "20px",
                             right: "20px",
-                            color: "red",
-                            fontSize: "12px",
-                            background: "rgba(0,0,0,0.6)",
-                            padding: "4px 8px",
-                            borderRadius: "4px"
+                            background: "rgba(0,0,0,0.7)",
+                            color: "#fff",
+                            padding: "10px 15px",
+                            borderRadius: "4px",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            zIndex: 10,
+                            border: "1px dashed #ff0000"
                         }}>
-                            {errors.selectedImageFile}
-                        </p>
-        )}
-                    </label>
-                   
+                          
+                            <FaCamera /> Change Banner Image
+                            
+                            <input 
+                                type="file" 
+                                accept=".jpg,.jpeg,.png"
+                                onChange={handleFileChange} 
+                                style={{ display: "none" }} 
+                            />
+                            
+                            {errors.selectedImageFile && (
+                                <p style={{
+                                    position: "absolute",
+                                    top: "65px",
+                                    right: "20px",
+                                    color: "red",
+                                    fontSize: "12px",
+                                    background: "rgba(0,0,0,0.6)",
+                                    padding: "4px 8px",
+                                    borderRadius: "4px"
+                                }}>
+                                    {errors.selectedImageFile}
+                                </p>
+                            )}
+                        </label>
                     </>
-              
                 )}
 
                 <div className="hero-content-inner">
-                  { /* <span className="hero-timestamp">15 minutes ago</span>*/}
-                    
                     {isEditingBlog ? (
                         <input 
                             className="hero-main-title comment-input-box" 
@@ -298,100 +262,117 @@ function Post() {
                         />
                     ) : (
                         <div>
-                        <h1 className="hero-main-title">{postData.blogTitle}</h1>
-                         <p className="article-author-line">𓂃🖊 By {postData.blogAuthor || "Admin"}</p>
-                     </div>
+                            <h1 className="hero-main-title">{postData.blogTitle}</h1>
+                            <p className="article-author-line">𓂃🖊 By {postData.blogAuthor || "Admin"}</p>
+                        </div>
                     )}
                     
-                   <div className="hero-button-row">
-    {isEditingBlog ? (
-        <>
-            <button className="read-more-btn" onClick={handleUpdateBlog}>Save Changes</button>
-            <button className="read-more-btn" onClick={() => setIsEditingBlog(false)} style={{background: 'gray'}}>Cancel</button>
-        </>
-    ) : (
-        <>
-          { ((postData.createdById===user.id)) && <button className="like-dislike-btn" onClick={() => startEditing()}>
-                <FaEdit /> Edit
-            </button>}
-           {  ((postData.createdById===user.id)) && <button className="like-dislike-btn" onClick={handleDeleteBlog}>
-                <FaTrash /> Delete
-            </button>}
-            
-            {/* Thumbs Up Button */}
-            <button className="like-dislike-btn" onClick={() => handlePostReaction(0)}>
-                <FaThumbsUp /> <span>{postData.blogLiskes || 0}</span>
-            </button>
+                    <div className="hero-button-row">
+                        {isEditingBlog ? (
+                            <>
+                                <button className="read-more-btn" onClick={handleUpdateBlog}>Save Changes</button>
+                                <button className="read-more-btn" onClick={() => setIsEditingBlog(false)} style={{background: 'gray'}}>Cancel</button>
+                            </>
+                        ) : (
+                            <>
+                                {/* 2. Use optional chaining user?.id so it doesn't crash for guests */}
+                                { (user && postData.createdById === user.id) && (
+                                    <button className="like-dislike-btn" onClick={() => startEditing()}>
+                                        <FaEdit /> Edit
+                                    </button>
+                                )}
+                                { (user && postData.createdById === user.id) && (
+                                    <button className="like-dislike-btn" onClick={handleDeleteBlog}>
+                                        <FaTrash /> Delete
+                                    </button>
+                                )}
+                                
+                                <button className="like-dislike-btn" onClick={() => handlePostReaction(0)}>
+                                    <FaThumbsUp /> <span>{postData.blogLiskes || 0}</span>
+                                </button>
 
-            {/* Thumbs Down Button */}
-            <button className="like-dislike-btn" onClick={() => handlePostReaction(1)}>
-                <FaThumbsDown /> <span>{postData.blogDislikes || 0}</span>
-            </button>
-        </>
-    )}
-</div>
+                                <button className="like-dislike-btn" onClick={() => handlePostReaction(1)}>
+                                    <FaThumbsDown /> <span>{postData.blogDislikes || 0}</span>
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </header>
-<article className="post-article-container">
-    <div className="article-text-content">
-        {isEditingBlog ? (
-            <textarea 
-                className="comment-input-box" 
-                style={{width: '100%', minHeight: '300px', padding: '20px'}}
-                value={editBlogDesc} 
-                onChange={e => setEditBlogDesc(e.target.value)} 
-            />
-        ) : (
-            <div style={{ whiteSpace: 'pre-wrap' }}>
-                {postData.blogDescription}
-            </div>
-        )}
-    </div>
-</article>
-  <hr style={{color:"red"}}/>
-            {/* Comment Section remains below */}
-        <div className="commentbox">
+
+            <article className="post-article-container">
+                <div className="article-text-content">
+                    {isEditingBlog ? (
+                        <textarea 
+                            className="comment-input-box" 
+                            style={{width: '100%', minHeight: '300px', padding: '20px'}}
+                            value={editBlogDesc} 
+                            onChange={e => setEditBlogDesc(e.target.value)} 
+                        />
+                    ) : (
+                        <div style={{ whiteSpace: 'pre-wrap' }}>
+                            {postData.blogDescription}
+                        </div>
+                    )}
+                </div>
+            </article>
+
+            <hr style={{color:"red"}}/>
+            
+            <div className="commentbox">
                 <h2>Leave a Comment</h2>
-                <div >
-                      {replyError && (
-            <p style={{ color: "red", fontSize: "12px", marginTop: "4px" , paddingLeft:"4rem"}}>
-              {replyError}
-            </p>
-          )}
-                </div>
-                <div className="input-group">
-                       
-                    {/* Logged in User Avatar */}
-                    <img src={`${BASE_URL}${userAvatar}`} alt="user" className="user-comment-avatar" />
-                    
-                    <input 
-                        type="text" 
-                        placeholder={isPosting ? "Posting..." : "Join the discussion..."}
-                        value={commentText}
-                        onChange={(e) => {
-                        const value = e.target.value;
-                       setCommentText(value);
-
-                        if (value.length > 500) {
-                          setReplyError("Comment cannot exceed 500 characters");
-                        } else {
-                          setReplyError("");
-                        }
-                      }}
-                        disabled={isPosting}
-                    />
-                   
-                    
-                    <button 
-                        className="loginBtn" 
-                        onClick={handleCommentSubmit}
-                        disabled={isPosting || !commentText.trim()}
-                    >
-                        {isPosting ? "..." : "POST"}
-                    </button>
+                <div>
+                    {replyError && (
+                        <p style={{ color: "red", fontSize: "12px", marginTop: "4px" , paddingLeft:"4rem"}}>
+                            {replyError}
+                        </p>
+                    )}
                 </div>
 
-               <hr style={{color:"red"}}/>
+                {/* 3. Conditional structure for comment input zone */}
+                {user ? (
+                    <div className="input-group">
+                        <img 
+                            src={user?.profilePicture ? `${BASE_URL}${userAvatar}` : userAvatar} 
+                            alt="user" 
+                            className="user-comment-avatar" 
+                        />
+                        <input 
+                            type="text" 
+                            placeholder={isPosting ? "Posting..." : "Join the discussion..."}
+                            value={commentText}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setCommentText(value);
+
+                                if (value.length > 500) {
+                                    setReplyError("Comment cannot exceed 500 characters");
+                                } else {
+                                    setReplyError("");
+                                }
+                            }}
+                            disabled={isPosting}
+                        />
+                        <button 
+                            className="loginBtn" 
+                            onClick={handleCommentSubmit}
+                            disabled={isPosting || !commentText.trim()}
+                        >
+                            {isPosting ? "..." : "POST"}
+                        </button>
+                    </div>
+                ) : (
+                    <div className="input-group" style={{ justifyContent: "center", padding: "15px", background: "#f5f5f5", borderRadius: "4px" }}>
+                        <p style={{ margin: 0, color: "#555" }}>
+                            <div>
+                                  Please <span style={{ color: "red", cursor: "pointer", fontWeight: "bold" , display:"inline" }} onClick={() => navigate("/login")}>Login</span> to join the discussion.
+                            </div>
+                           
+                        </p>
+                    </div>
+                )}
+
+                <hr style={{color:"red"}}/>
 
                 <div className="comment-section">
                     <h2>Comments ({commentsArray.length})</h2>

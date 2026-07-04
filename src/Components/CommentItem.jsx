@@ -44,6 +44,7 @@ const CommentItem = ({ comment, blogId }) => {
     setReplyError("Comment cannot exceed 500 characters");
     return;
   } 
+  
 
     try {
       await createComment({
@@ -164,25 +165,25 @@ const CommentItem = ({ comment, blogId }) => {
         <div className="yt-action-bar">
           <button
             className="yt-icon-btn"
-            onClick={() => reactToComment({ id: comment.id, type: 0 })}
+            onClick={() => user == null ? navigation.navigate("/Login") : reactToComment({ id: comment.id, type: 0 })}
           >
             <FaThumbsUp /> <span>{comment.commentLiskes || 0}</span>
           </button>
           <button
             className="yt-icon-btn"
-            onClick={() => reactToComment({ id: comment.id, type: 1 })}
+            onClick={() => user == null ? navigation.navigate("/Login") : reactToComment({ id: comment.id, type: 1 })}
           >
             <FaThumbsDown /> <span>{comment.commentDislikes || 0}</span>
           </button>
           <button
             className="yt-reply-trigger"
-            onClick={() => setIsReplying(!isReplying)}
+            onClick={() => user == null ? navigation.navigate("/Login") : setIsReplying(!isReplying)}
           >
             Reply
           </button>
 
           <div className="yt-owner-actions">
-            {comment.createdBy.name === user.name && (
+            {user != null && comment.createdBy.name === user.name && (
               <button
                 className="yt-small-btn"
                 onClick={() => setIsEditing(true)}
@@ -190,7 +191,7 @@ const CommentItem = ({ comment, blogId }) => {
                 <FaEdit size={20} style={{ color: "red" }} />
               </button>
             )}
-            {comment.createdBy.name === user.name && (
+            {user != null && comment.createdBy.name === user.name && (
               <button
                 className="yt-small-btn"
                 onClick={() => deleteComment(comment.id)}
