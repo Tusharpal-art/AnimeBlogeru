@@ -177,7 +177,7 @@ const CommentItem = ({ comment, blogId }) => {
           </button>
           <button
             className="yt-reply-trigger"
-            onClick={() => user == null ? navigation.navigate("/Login") : setIsReplying(!isReplying)}
+            onClick={() => user == null ? navigation.navigate("/login") : setIsReplying(!isReplying)}
           >
             Reply
           </button>
