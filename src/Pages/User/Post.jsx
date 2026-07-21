@@ -11,6 +11,8 @@ import {
 import { useState } from "react";
 import CommentItem from "../../Components/CommentItem";
 import { useSelector } from "react-redux";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 function Post() {
     const { id } = useParams();
@@ -61,6 +63,16 @@ function Post() {
         return tree;
     };
 
+    const quillModules = {
+        toolbar: [
+            [{ header: [1, 2, 3, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ align: [] }],
+            ["link", "clean"],
+        ],
+    };
+
     const commentTree = buildTree(commentsArray);
   
     const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://192.168.31.161:5023";
@@ -80,6 +92,7 @@ function Post() {
             setReplyError("Comment cannot exceed 500 characters");
             return;
         } 
+        
         const payload = {
             commentContent: commentText,
             commentLiskes: 0,
@@ -303,16 +316,19 @@ function Post() {
             <article className="post-article-container">
                 <div className="article-text-content">
                     {isEditingBlog ? (
-                        <textarea 
-                            className="comment-input-box" 
-                            style={{width: '100%', minHeight: '300px', padding: '20px'}}
-                            value={editBlogDesc} 
-                            onChange={e => setEditBlogDesc(e.target.value)} 
-                        />
-                    ) : (
-                        <div style={{ whiteSpace: 'pre-wrap' }}>
-                            {postData.blogDescription}
+                      <div style={{ backgroundColor: "#fff", color: "#333", borderRadius: "4px" }}>
+                            <ReactQuill
+                                theme="snow"
+                                value={editBlogDesc}
+                                onChange={setEditBlogDesc}
+                                modules={quillModules}
+                            />
                         </div>
+                    ) : (
+                       <div 
+                            className="rendered-blog-body"
+                            dangerouslySetInnerHTML={{ __html: postData.blogDescription }} 
+                        />
                     )}
                 </div>
             </article>

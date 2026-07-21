@@ -4,7 +4,7 @@ import { PostSection } from "../../Components/PostSection";
 import Footer from "../../Components/Footer";
 
 function Home() {
-  const { data: posts,  isError } = useGetRecentPostsQuery();
+  const {    isError } = useGetRecentPostsQuery();
  //console.log(posts)
   return (
     <main className="home-wrapper">
@@ -23,16 +23,16 @@ function Home() {
         <p className="status-msg">Gomen nasai! Something went wrong.</p>
       )}
 
-     <div className="blog-home-page">
-      {/* 1. Recent Posts (Type 2) */}
-      <PostSection title="Recent Posts" type={2} limit={6} />
+    <div className="blog-home-page">
+        {/* 1. Loads immediately (delay = 0) */}
+        <PostSection title="Recent Posts" type={2} limit={6} delay={0} />
 
-      {/* 2. Popular Posts (Type 3) */}
-      <PostSection title="Popular Posts" type={3} limit={6} />
+        {/* 2. Loads after 1.5 seconds */}
+        <PostSection title="Popular Posts" type={3} limit={6} delay={300} />
 
-      {/* 3. All Posts (Type 1) with See All button */}
-      <PostSection title="All Blogs" type={0} limit={30} showSeeAll={true} />
-    </div>
+        {/* 3. Loads after 3 seconds */}
+        <PostSection title="All Blogs" type={0} limit={30} showSeeAll={true} delay={400} />
+      </div>
 
     <Footer />
     </main>

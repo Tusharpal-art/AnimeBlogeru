@@ -3,6 +3,8 @@ import { useCreatePostMutation } from "../../services/apiSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector  } from "react-redux";
 import { jwtDecode } from "jwt-decode";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 function AddPost() {
 
@@ -28,6 +30,17 @@ function AddPost() {
   const fileInputRef = useRef(null);
   const [createPost, { isLoading }] = useCreatePostMutation();
   const navigate = useNavigate();
+
+  // Custom toolbar configuration for rich document formatting
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["link", "clean"],
+    ],
+  };
 
   const handleFile = (file) => {
     if (file && file.type.startsWith("image/")) {
@@ -57,10 +70,11 @@ function AddPost() {
     } else if (blogAuthor.trim().length < 3) {
       newErrors.blogAuthor = "Author must be at least 3 characters long";
     }
-
-    if (!blogDescription.trim()) {
+ 
+    const strippedDescription = blogDescription.replace(/<[^>]*>/g, "").trim();
+    if (!strippedDescription) {
       newErrors.blogDescription = "Description is required";
-    } else if (blogDescription.trim().length < 10) {
+    } else if (strippedDescription.length < 10) {
       newErrors.blogDescription = "Description must be at least 10 characters long";
     }
 
@@ -148,16 +162,30 @@ function AddPost() {
           style={errors.blogAuthor ? { borderColor: "red" } : {}}
         />
         {errors.blogAuthor && <span style={{ color: "red", fontSize: "14px", alignSelf: "flex-start", marginTop: "-10px", marginBottom: "10px", marginLeft: "5px" }}>{errors.blogAuthor}</span>}
-
-        <textarea
-          placeholder="Description"
-          rows="4"
-          value={blogDescription}
-          onChange={(e) => { setBlogDescription(e.target.value); setErrors(prev => ({ ...prev, blogDescription: null })) }}
-          style={errors.blogDescription ? { borderColor: "red" } : {}}
-        ></textarea>
-        {errors.blogDescription && <span style={{ color: "red", fontSize: "14px", alignSelf: "flex-start", marginTop: "-10px", marginBottom: "10px", marginLeft: "5px" }}>{errors.blogDescription}</span>}
-
+      
+      
+      <div style={{ width: "100%", marginBottom: "15px" }}>
+          <ReactQuill
+            theme="snow"
+            value={blogDescription}
+            onChange={(content) => {
+              setBlogDescription(content);
+              setErrors((prev) => ({ ...prev, blogDescription: null }));
+            }}
+            modules={modules}
+            placeholder="Write your blog description here..."
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "4px",
+              border: errors.blogDescription ? "1px solid red" : "1px solid #ccc",
+            }}
+          />
+          {errors.blogDescription && (
+            <span style={{ color: "red", fontSize: "14px", alignSelf: "flex-start", marginTop: "5px", marginLeft: "5px" }}>
+              {errors.blogDescription}
+            </span>
+          )}
+        </div>
         
         
         {/* Drag and Drop Zone */}

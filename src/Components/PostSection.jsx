@@ -1,23 +1,38 @@
 import PostCard from "./PostCard";
 import { useGetRecentPostsQuery } from "../services/apiSlice";
+import { useState,useEffect } from "react";
  
 
-export const PostSection = ({ title, type, limit = 4,IsAscending=false }) => {
-  //console.log( "profile Type " ,type)
-   // console.log(title)
-    //  console.log(limit)
+export const PostSection = ({ title, type, limit = 4, IsAscending = false, delay = 0 }) => {
+  // 1. Control whether the query should run
+  const [shouldFetch, setShouldFetch] = useState(delay === 0);
+
+  useEffect(() => {
+    if (delay > 0) {
+      const timer = setTimeout(() => {
+        setShouldFetch(true);
+      }, delay);
+
+      // Clean up timer on unmount
+      return () => clearTimeout(timer);
+    }
+  }, [delay]);
   const { data, isLoading, isError } = useGetRecentPostsQuery({
     pageSize: 30, // Fetching enough to have a pool
     BlogType: type,
     IsAscending:IsAscending,
      // Using the dynamic type from your endpoint
-  });
+  },
+  {
+      skip: !shouldFetch,  
+    }
+);
 
   const posts = data?.data?.records || [];
   // Slice the data to only show a few on the homepage (like the image)
   const displayPosts = posts.slice(0, limit);
 
-  if (isLoading) return <div className="status-msg">Loading {title}...</div>;
+  if (!shouldFetch || isLoading) return <div className="status-msg">Loading {title}...</div>;
   if (isError) return null; // Silently fail or show small error
 
   return (

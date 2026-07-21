@@ -16,6 +16,40 @@ div, span, p, h1, h2, h3, h4, i, svg {
   background-color: transparent !important;
 }
 
+/* Ensure the rendered content wraps and respects HTML element blocks */
+.rendered-blog-body {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+}
+
+/* Force headings and paragraphs to render as distinct block elements */
+.rendered-blog-body p,
+.rendered-blog-body h1,
+.rendered-blog-body h2,
+.rendered-blog-body h3,
+.rendered-blog-body ul,
+.rendered-blog-body ol {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem; /* Restores vertical spacing between paragraphs */
+}
+
+.rendered-blog-body h1,
+.rendered-blog-body h2,
+.rendered-blog-body h3 {
+  color:white;
+    
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.rendered-blog-body ul,
+.rendered-blog-body ol {
+  padding-left: 1.5rem; /* Restores list bullet indentation */
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
