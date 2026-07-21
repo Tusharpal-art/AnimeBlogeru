@@ -28,10 +28,10 @@ function Home() {
         <PostSection title="Recent Posts" type={2} limit={6} delay={0} />
 
         {/* 2. Loads after 1.5 seconds */}
-        <PostSection title="Popular Posts" type={3} limit={6} delay={300} />
+        <PostSection title="Popular Posts" type={3} limit={6} delay={500} />
 
         {/* 3. Loads after 3 seconds */}
-        <PostSection title="All Blogs" type={0} limit={30} showSeeAll={true} delay={400} />
+        <PostSection title="All Blogs" type={0} limit={30} showSeeAll={true} delay={500} />
       </div>
 
     <Footer />
